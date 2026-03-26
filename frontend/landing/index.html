@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>zeroto — Zero to Business</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="css/home.css" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Instrument Serif', 'serif'],
+                        sans: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    colors: {
+                        lime: { DEFAULT: '#c8ff00', dark: '#9fcc00' },
+                        zinc: {
+                            950: '#0a0a0a', 900: '#111111', 850: '#161616',
+                            800: '#1c1c1c', 700: '#282828', 600: '#3a3a3a',
+                            400: '#888888', 300: '#aaaaaa', 200: '#d4d4d4', 100: '#ebebeb',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+    <div class="scanline"></div>
+
+    <!-- glow orbs -->
+    <div class="orb w-96 h-96 bg-lime opacity-10"
+        style="position:fixed;top:0;left:50%;transform:translate(-50%,-50%);z-index:1"></div>
+    <div class="orb w-64 h-64" style="background:#3b82f6;position:fixed;bottom:10%;right:5%;opacity:0.06;z-index:1">
+    </div>
+
+    <div class="content">
+
+        <!-- nav -->
+        <nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 h-14">
+            <a href="#" class="font-serif text-xl tracking-tight text-white">
+                zero<span class="text-lime">to</span>
+            </a>
+            <div class="flex items-center gap-6">
+                <a href="#features"
+                    class="text-xs text-zinc-400 hover:text-white transition-colors hidden sm:block">Features</a>
+                <a href="#demo" class="text-xs text-zinc-400 hover:text-white transition-colors hidden sm:block">Try
+                    it</a>
+                <a href="mailto:hello@matteocola.com"
+                    class="text-xs font-medium px-4 py-1.5 rounded-full border border-white/10 hover:border-white/30 hover:text-white text-zinc-300 transition-all">
+                    Work with me
+                </a>
+            </div>
+        </nav>
+
+        <!-- hero -->
+        <section
+            class="min-h-screen flex flex-col items-center justify-center px-6 pt-20 pb-12 text-center relative overflow-hidden">
+
+            <div class="dot-grid absolute inset-0 opacity-30 fade-top"></div>
+
+            <!-- floating tags -->
+            <div class="float absolute left-[8%] top-[25%] tag hidden lg:flex"><span class="tag-dot"></span> business
+                plan</div>
+            <div class="float-delay absolute right-[8%] top-[30%] tag hidden lg:flex"><span class="tag-dot"></span>
+                revenue model</div>
+            <div class="float absolute left-[12%] bottom-[30%] tag hidden lg:flex"><span class="tag-dot"></span>
+                contacts &amp; network</div>
+            <div class="float-delay absolute right-[10%] bottom-[28%] tag hidden lg:flex"><span class="tag-dot"></span>
+                investment estimate</div>
+
+            <div data-aos="fade-down" data-aos-duration="600"
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 text-xs text-zinc-400 font-mono mb-8">
+                <span class="w-1.5 h-1.5 rounded-full bg-lime animate-pulse"></span>
+                AI-powered business planning
+            </div>
+
+            <h1 data-aos="fade-up" data-aos-duration="700" data-aos-delay="100"
+                class="font-serif text-5xl sm:text-6xl lg:text-8xl font-normal leading-[0.95] tracking-tight mb-6 max-w-5xl">
+                Turn your idea<br />into a <em class="text-lime not-italic">plan</em><br />
+                <span class="text-zinc-500">in seconds.</span>
+            </h1>
+
+            <p data-aos="fade-up" data-aos-duration="700" data-aos-delay="200"
+                class="text-zinc-400 text-base sm:text-lg max-w-xl leading-relaxed mb-12 font-light">
+                Describe any business idea. Get a full plan, investment breakdown,<br class="hidden sm:block" />
+                revenue forecast, roadmap — and the exact people you need.
+            </p>
+
+            <div data-aos="fade-up" data-aos-duration="700" data-aos-delay="300" class="flex gap-3">
+                <a href="#demo"
+                    class="px-6 py-3 rounded-full bg-lime text-black text-sm font-medium hover:bg-lime-dark transition-colors">
+                    Try for free
+                </a>
+                <a href="#features"
+                    class="px-6 py-3 rounded-full border border-white/10 text-sm text-zinc-300 hover:border-white/30 hover:text-white transition-all">
+                    Learn more
+                </a>
+            </div>
+
+            <!-- stat row -->
+            <div data-aos="fade-up" data-aos-duration="700" data-aos-delay="400"
+                class="mt-20 grid grid-cols-3 gap-px bg-white/5 rounded-2xl overflow-hidden max-w-lg w-full border border-white/5">
+                <div class="bg-zinc-950 px-4 py-4 text-center">
+                    <div class="font-mono text-2xl text-white font-medium">30s</div>
+                    <div class="text-xs text-zinc-500 mt-1">full analysis</div>
+                </div>
+                <div class="bg-zinc-950 px-4 py-4 text-center">
+                    <div class="font-mono text-2xl text-white font-medium">6</div>
+                    <div class="text-xs text-zinc-500 mt-1">output sections</div>
+                </div>
+                <div class="bg-zinc-950 px-4 py-4 text-center">
+                    <div class="font-mono text-2xl text-white font-medium">0</div>
+                    <div class="text-xs text-zinc-500 mt-1">prior experience needed</div>
+                </div>
+            </div>
+
+            <!-- scroll hint -->
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
+                <span class="text-xs font-mono text-zinc-500">scroll</span>
+                <svg width="12" height="20" viewBox="0 0 12 20" fill="none">
+                    <rect x="1" y="1" width="10" height="18" rx="5" stroke="white" stroke-width="1" />
+                    <rect x="5" y="4" width="2" height="4" rx="1" fill="white">
+                        <animate attributeName="y" values="4;10;4" dur="1.8s" repeatCount="indefinite" />
+                    </rect>
+                </svg>
+            </div>
+        </section>
+
+        <!-- features -->
+        <section id="features" class="py-32 px-6">
+            <div class="max-w-5xl mx-auto">
+                <div data-aos="fade-up" class="mb-16 text-center">
+                    <p class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-4">What you get</p>
+                    <h2 class="font-serif text-4xl sm:text-5xl font-normal tracking-tight">
+                        Everything to go from<br /><em class="text-lime">zero</em> to launch.
+                    </h2>
+                </div>
+
+                <div
+                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5 rounded-2xl overflow-hidden border border-white/5">
+
+                    <div data-aos="fade-up" data-aos-delay="0"
+                        class="bg-zinc-950 p-6 hover:bg-zinc-900 transition-colors group">
+                        <div
+                            class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:border-lime/30 transition-colors">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M1 7h12M7 1v12" stroke="#c8ff00" stroke-width="1.5" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-medium mb-2">Business plan</h3>
+                        <p class="text-xs text-zinc-500 leading-relaxed">Step-by-step actionable plan tailored to your
+                            idea, market, and constraints.</p>
+                    </div>
+
+                    <div data-aos="fade-up" data-aos-delay="60"
+                        class="bg-zinc-950 p-6 hover:bg-zinc-900 transition-colors group">
+                        <div
+                            class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:border-lime/30 transition-colors">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M2 10 L5 6 L8 8 L12 3" stroke="#c8ff00" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-medium mb-2">Revenue forecast</h3>
+                        <p class="text-xs text-zinc-500 leading-relaxed">Realistic projections at 3, 6, and 12 months
+                            based on your specific model.</p>
+                    </div>
+
+                    <div data-aos="fade-up" data-aos-delay="120"
+                        class="bg-zinc-950 p-6 hover:bg-zinc-900 transition-colors group">
+                        <div
+                            class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:border-lime/30 transition-colors">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <circle cx="7" cy="7" r="5" stroke="#c8ff00" stroke-width="1.5" />
+                                <path d="M7 4v3l2 2" stroke="#c8ff00" stroke-width="1.5" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-medium mb-2">Full timeline</h3>
+                        <p class="text-xs text-zinc-500 leading-relaxed">First customer, break-even, ROI — clear
+                            milestones so you know where you stand.</p>
+                    </div>
+
+                    <div data-aos="fade-up" data-aos-delay="0"
+                        class="bg-zinc-950 p-6 hover:bg-zinc-900 transition-colors group">
+                        <div
+                            class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:border-lime/30 transition-colors">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M2 4h10M2 7h7M2 10h4" stroke="#c8ff00" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-medium mb-2">Investment breakdown</h3>
+                        <p class="text-xs text-zinc-500 leading-relaxed">How much you actually need and exactly where it
+                            goes — no fluff estimates.</p>
+                    </div>
+
+                    <div data-aos="fade-up" data-aos-delay="60"
+                        class="bg-zinc-950 p-6 hover:bg-zinc-900 transition-colors group">
+                        <div
+                            class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:border-lime/30 transition-colors">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <circle cx="4" cy="7" r="2" stroke="#c8ff00" stroke-width="1.5" />
+                                <circle cx="10" cy="4" r="2" stroke="#c8ff00" stroke-width="1.5" />
+                                <circle cx="10" cy="10" r="2" stroke="#c8ff00" stroke-width="1.5" />
+                                <path d="M6 6.5L8.3 5M6 7.5L8.3 9" stroke="#c8ff00" stroke-width="1.2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-medium mb-2">Who you need</h3>
+                        <p class="text-xs text-zinc-500 leading-relaxed">Exact roles, why you need them, and where to
+                            find them — ready to hire.</p>
+                    </div>
+
+                    <div data-aos="fade-up" data-aos-delay="120"
+                        class="bg-zinc-950 p-6 hover:bg-zinc-900 transition-colors group">
+                        <div
+                            class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:border-lime/30 transition-colors">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <rect x="1" y="3" width="12" height="9" rx="1.5" stroke="#c8ff00" stroke-width="1.5" />
+                                <path d="M5 3V2a2 2 0 014 0v1" stroke="#c8ff00" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                                <path d="M7 7v1" stroke="#c8ff00" stroke-width="2" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-medium mb-2">Viability score</h3>
+                        <p class="text-xs text-zinc-500 leading-relaxed">Honest assessment before you spend a cent or
+                            tell your family about it.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- demo -->
+        <section id="demo" class="py-24 px-6">
+            <div class="max-w-3xl mx-auto">
+
+                <div data-aos="fade-up" class="text-center mb-12">
+                    <p class="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-4">Live demo</p>
+                    <h2 class="font-serif text-4xl sm:text-5xl font-normal tracking-tight mb-4">Describe your idea.</h2>
+                    <p class="text-zinc-500 text-sm">No signup. No credit card. Just type.</p>
+                </div>
+
+                <!-- input -->
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <div class="shimmer-border rounded-2xl bg-zinc-900 border border-white/8 overflow-hidden">
+                        <textarea id="idea-input"
+                            class="idea-input w-full bg-transparent px-5 pt-5 pb-3 text-sm text-zinc-100 placeholder-zinc-600 resize-none font-sans leading-relaxed transition-all"
+                            rows="4"
+                            placeholder="e.g. A subscription app for local artisan coffee, targeting remote workers in Switzerland..."></textarea>
+                        <div class="flex items-center justify-between px-5 pb-4 pt-2 border-t border-white/5">
+                            <span class="text-xs text-zinc-600 font-mono" id="char-count">0 / 1000</span>
+                            <button id="analyze-btn" type="button"
+                                class="flex items-center gap-2 px-5 py-2 rounded-full bg-lime text-black text-xs font-medium hover:bg-lime-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                                <span id="btn-label">Analyze</span>
+                                <svg id="btn-arrow" width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                    <path d="M2 5h6M5 2l3 3-3 3" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <span id="btn-spinner" class="hidden spinner"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-center text-xs text-zinc-600 mt-3 font-mono">cmd+enter to submit</p>
+                </div>
+
+                <!-- output (skeleton or result injected here) -->
+                <div id="output" class="mt-10 hidden space-y-4"></div>
+
+                <!-- error -->
+                <div id="error-box"
+                    class="hidden mt-6 px-5 py-4 rounded-xl border border-red-900/50 bg-red-950/20 text-red-400 text-sm font-mono">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- upsell -->
+        <section class="py-24 px-6">
+            <div class="max-w-3xl mx-auto">
+                <div data-aos="fade-up"
+                    class="shimmer-border rounded-2xl bg-zinc-900 border border-white/8 p-8 sm:p-10 text-center">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 text-xs text-zinc-500 font-mono mb-6">
+                        <span class="w-1.5 h-1.5 rounded-full bg-lime"></span>
+                        agency upsell
+                    </div>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-normal tracking-tight mb-4">
+                        Want someone to build it<br /><em class="text-lime">for you?</em>
+                    </h2>
+                    <p class="text-zinc-400 text-sm max-w-md mx-auto leading-relaxed mb-8">
+                        The AI gives you the plan. I give you the execution — vetted freelancers, the right stack, and
+                        90 days of hands-on guidance.
+                    </p>
+                    <a href="mailto:hello@matteocola.com?subject=zeroto%20agency&body=Hi%20Matteo%2C%20I%20just%20analyzed%20my%20business%20idea%20on%20zeroto%20and%20I%20want%20help%20executing%20it."
+                        class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black text-sm font-medium hover:bg-zinc-200 transition-colors">
+                        Let's talk
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                            <path d="M2 5h6M5 2l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- footer -->
+        <footer class="border-t border-white/5 px-6 py-6 flex items-center justify-between">
+            <a href="#" class="font-serif text-lg text-zinc-500">zero<span class="text-lime">to</span></a>
+            <p class="text-xs text-zinc-600 font-mono">
+                built by <a href="https://matteocola.com" target="_blank"
+                    class="hover:text-zinc-400 transition-colors">matteocola.com</a>
+            </p>
+        </footer>
+
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

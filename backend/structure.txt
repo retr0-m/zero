@@ -1,0 +1,11 @@
+backend/
+├── routers/
+│   ├── analyze.py      # exists
+│   ├── auth.py         # new
+│   ├── ideas.py        # new
+│   └── chat.py         # new
+├── services/
+│   ├── ai.py           # exists, add problems + chat prompts
+│   └── auth.py         # new — JWT encode/decode, password hashing
+├── db.py               # new — SQLAlchemy async engine + session
+└── models_db.py        # new — ORM models (separate from Pydantic models.py)

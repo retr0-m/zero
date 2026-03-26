@@ -1,0 +1,26 @@
+src/
+├── api/
+│   └── client.js [cite: 262]
+├── stores/
+│   └── authStore.js [cite: 261]
+├── pages/
+│   ├── Dashboard.jsx [cite: 23]
+│   ├── Login.jsx [cite: 46]
+│   ├── NewIdea.jsx [cite: 66]
+│   └── Register.jsx [cite: 147]
+├── components/
+│   ├── layout/
+│   │   └── Sidebar.jsx [cite: 160]
+│   └── idea/
+│       ├── IdeaView.jsx [cite: 34]
+│       ├── IdeaHeader.jsx (CRITICAL: Missing) 
+│       └── tabs/
+│           ├── ChatTab.jsx [cite: 4]
+│           ├── MoneyTab.jsx [cite: 57]
+│           ├── PeopleTab.jsx [cite: 121]
+│           ├── PlanTab.jsx [cite: 130]
+│           └── ProblemsTab.jsx [cite: 138]
+└── App.jsx [cite: 1]
+
+public/ (or external static site)
+└── app.js [cite: 175]

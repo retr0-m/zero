@@ -1,0 +1,199 @@
+2026-03-24 18:34:21 | INFO     | main | Starting zeroto platform API
+2026-03-24 18:34:21 | INFO     | main | Database tables ready
+2026-03-24 18:34:29 | INFO     | routers.analyze | POST /api/quick-read
+2026-03-24 18:34:29 | INFO     | services.ai | Quick read (length=694)
+2026-03-24 18:34:32 | INFO     | services.ai | Quick read done: title='Plant-Based Meal Kit Subscription' viability=8
+2026-03-24 18:34:40 | INFO     | routers.analyze | POST /api/full-analysis
+2026-03-24 18:34:40 | INFO     | services.ai | Full analysis (length=694)
+2026-03-24 18:34:53 | INFO     | services.ai | Full analysis done: title='Sustainable Plant-Based Meal Kit Subscription Service' viability=6
+2026-03-24 18:34:59 | INFO     | routers.ideas | Idea created: id=96c088a4-6b92-4a88-87fd-86448a617dc4 user=5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:34:59 | INFO     | routers.ideas | Built idea detail for idea_id=96c088a4-6b92-4a88-87fd-86448a617dc4
+2026-03-24 18:35:03 | INFO     | routers.ideas | Idea created: id=6c41c2b9-6e3e-4a6c-934d-dd87ca37b887 user=5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:35:03 | INFO     | routers.ideas | Built idea detail for idea_id=6c41c2b9-6e3e-4a6c-934d-dd87ca37b887
+2026-03-24 18:35:07 | INFO     | main | Shutting down
+2026-03-24 18:37:19 | INFO     | main | Starting zeroto platform API
+2026-03-24 18:37:19 | INFO     | main | Database tables ready
+2026-03-24 18:37:23 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:37:28 | INFO     | routers.analyze | POST /api/quick-read
+2026-03-24 18:37:28 | INFO     | services.ai | Quick read (length=694)
+2026-03-24 18:37:32 | INFO     | services.ai | Quick read done: title='Sustainable Meal Kits' viability=7
+2026-03-24 18:37:40 | INFO     | routers.analyze | POST /api/full-analysis
+2026-03-24 18:37:40 | INFO     | services.ai | Full analysis (length=694)
+2026-03-24 18:37:54 | INFO     | services.ai | Full analysis done: title='Sustainable Plant-Based Meal Kit Subscription Service' viability=5
+2026-03-24 18:38:20 | INFO     | routers.ideas | Idea created: id=4ec5943a-9811-4861-94c5-e5a07089393f user=5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:20 | INFO     | routers.ideas | Built idea detail for idea_id=4ec5943a-9811-4861-94c5-e5a07089393f
+2026-03-24 18:38:20 | INFO     | routers.ideas | Committed DB session after building idea detail for idea_id=4ec5943a-9811-4861-94c5-e5a07089393f
+2026-03-24 18:38:20 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:45 | INFO     | routers.ideas | Fetching idea 858188e0-57d7-40a0-8fc3-1d05b26143a6 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:46 | INFO     | routers.ideas | Fetching idea f960cede-6197-44d7-ac74-72f75fe8f2b1 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:46 | INFO     | routers.ideas | Fetching idea 6f735a53-bd5f-4903-bd44-ae83cd73cc71 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:47 | INFO     | routers.ideas | Fetching idea 96c088a4-6b92-4a88-87fd-86448a617dc4 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:48 | INFO     | routers.ideas | Fetching idea 6c41c2b9-6e3e-4a6c-934d-dd87ca37b887 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:49 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:50 | INFO     | routers.ideas | Fetching idea 6c41c2b9-6e3e-4a6c-934d-dd87ca37b887 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:51 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:52 | INFO     | routers.ideas | Fetching idea 6c41c2b9-6e3e-4a6c-934d-dd87ca37b887 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:53 | INFO     | routers.ideas | Fetching idea 96c088a4-6b92-4a88-87fd-86448a617dc4 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:54 | INFO     | routers.ideas | Fetching idea 6c41c2b9-6e3e-4a6c-934d-dd87ca37b887 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:54 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:56 | INFO     | routers.ideas | Fetching idea 6c41c2b9-6e3e-4a6c-934d-dd87ca37b887 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:57 | INFO     | routers.ideas | Fetching idea 96c088a4-6b92-4a88-87fd-86448a617dc4 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:38:59 | INFO     | routers.ideas | Fetching idea 6f735a53-bd5f-4903-bd44-ae83cd73cc71 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:00 | INFO     | routers.ideas | Fetching idea f960cede-6197-44d7-ac74-72f75fe8f2b1 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:00 | INFO     | routers.ideas | Fetching idea 858188e0-57d7-40a0-8fc3-1d05b26143a6 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:05 | INFO     | routers.ideas | Fetching idea f960cede-6197-44d7-ac74-72f75fe8f2b1 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:06 | INFO     | routers.ideas | Fetching idea 6f735a53-bd5f-4903-bd44-ae83cd73cc71 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:07 | INFO     | routers.ideas | Fetching idea f960cede-6197-44d7-ac74-72f75fe8f2b1 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:08 | INFO     | routers.ideas | Fetching idea 858188e0-57d7-40a0-8fc3-1d05b26143a6 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:15 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:34 | INFO     | routers.ideas | Fetching idea 858188e0-57d7-40a0-8fc3-1d05b26143a6 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:37 | INFO     | routers.ideas | Fetching idea f960cede-6197-44d7-ac74-72f75fe8f2b1 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:40 | INFO     | routers.ideas | Fetching idea f960cede-6197-44d7-ac74-72f75fe8f2b1 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:40 | INFO     | routers.ideas | Idea deleted: id=f960cede-6197-44d7-ac74-72f75fe8f2b1 user=5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:42 | INFO     | routers.ideas | Fetching idea 96c088a4-6b92-4a88-87fd-86448a617dc4 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:44 | INFO     | routers.ideas | Fetching idea 96c088a4-6b92-4a88-87fd-86448a617dc4 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:44 | INFO     | routers.ideas | Idea deleted: id=96c088a4-6b92-4a88-87fd-86448a617dc4 user=5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:47 | INFO     | routers.ideas | Fetching idea 6f735a53-bd5f-4903-bd44-ae83cd73cc71 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:50 | INFO     | routers.ideas | Fetching idea 6f735a53-bd5f-4903-bd44-ae83cd73cc71 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:50 | INFO     | routers.ideas | Idea deleted: id=6f735a53-bd5f-4903-bd44-ae83cd73cc71 user=5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:39:52 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:45:36 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:45:36 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:45:42 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:45:42 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:45:43 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:45:43 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:45:50 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:45:50 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:45:50 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:45:50 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:49:12 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:49:12 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:50:57 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:50:57 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:51:01 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:51:01 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:51:02 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:51:02 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:51:05 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:51:05 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:51:42 | INFO     | main | Shutting down
+2026-03-24 18:54:20 | INFO     | main | Starting zeroto platform API
+2026-03-24 18:54:20 | INFO     | main | Database tables ready
+2026-03-24 18:54:52 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:54:52 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:55:28 | INFO     | routers.ideas | Fetching idea 6c41c2b9-6e3e-4a6c-934d-dd87ca37b887 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:28 | INFO     | routers.ideas | Fetching idea 96c088a4-6b92-4a88-87fd-86448a617dc4 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:29 | INFO     | routers.ideas | Fetching idea 6f735a53-bd5f-4903-bd44-ae83cd73cc71 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:30 | INFO     | routers.ideas | Fetching idea f960cede-6197-44d7-ac74-72f75fe8f2b1 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:30 | INFO     | routers.ideas | Fetching idea 858188e0-57d7-40a0-8fc3-1d05b26143a6 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:31 | INFO     | routers.ideas | Fetching idea f960cede-6197-44d7-ac74-72f75fe8f2b1 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:33 | INFO     | routers.ideas | Fetching idea f960cede-6197-44d7-ac74-72f75fe8f2b1 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:33 | INFO     | routers.ideas | Idea deleted: id=f960cede-6197-44d7-ac74-72f75fe8f2b1 user=5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:34 | INFO     | routers.ideas | Fetching idea 6f735a53-bd5f-4903-bd44-ae83cd73cc71 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:37 | INFO     | routers.ideas | Fetching idea 6f735a53-bd5f-4903-bd44-ae83cd73cc71 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:37 | INFO     | routers.ideas | Idea deleted: id=6f735a53-bd5f-4903-bd44-ae83cd73cc71 user=5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:37 | INFO     | routers.ideas | Fetching idea 858188e0-57d7-40a0-8fc3-1d05b26143a6 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:38 | INFO     | routers.ideas | Fetching idea 6c41c2b9-6e3e-4a6c-934d-dd87ca37b887 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:38 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:39 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:55:39 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:56:16 | INFO     | main | Shutting down
+2026-03-24 18:56:17 | INFO     | main | Starting zeroto platform API
+2026-03-24 18:56:17 | INFO     | main | Database tables ready
+2026-03-24 18:56:18 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:56:18 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:56:19 | INFO     | routers.ideas | Fetching idea 6f735a53-bd5f-4903-bd44-ae83cd73cc71 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:56:21 | INFO     | routers.ideas | Fetching idea 6f735a53-bd5f-4903-bd44-ae83cd73cc71 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:56:21 | INFO     | routers.ideas | Idea deleted: id=6f735a53-bd5f-4903-bd44-ae83cd73cc71 user=5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:56:22 | INFO     | routers.ideas | Fetching idea f960cede-6197-44d7-ac74-72f75fe8f2b1 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:56:24 | INFO     | routers.ideas | Fetching idea f960cede-6197-44d7-ac74-72f75fe8f2b1 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:56:24 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:56:26 | INFO     | routers.ideas | Fetching idea f960cede-6197-44d7-ac74-72f75fe8f2b1 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:56:26 | INFO     | routers.ideas | Idea deleted: id=f960cede-6197-44d7-ac74-72f75fe8f2b1 user=5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:56:27 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:56:31 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:56:32 | INFO     | routers.ideas | Fetching idea 6c41c2b9-6e3e-4a6c-934d-dd87ca37b887 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:56:45 | INFO     | services.ai | Chat response for idea=Sustainable Plant-Based Meal Kit Subscription Service
+2026-03-24 18:56:47 | INFO     | routers.chat | Chat message saved for idea=6c41c2b9-6e3e-4a6c-934d-dd87ca37b887
+2026-03-24 18:59:26 | INFO     | main | Shutting down
+2026-03-24 18:59:28 | INFO     | main | Starting zeroto platform API
+2026-03-24 18:59:28 | INFO     | main | Database tables ready
+2026-03-24 18:59:29 | INFO     | routers.ideas | Fetching idea 6c41c2b9-6e3e-4a6c-934d-dd87ca37b887 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:59:29 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:59:30 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:59:31 | INFO     | routers.ideas | Fetching idea 6c41c2b9-6e3e-4a6c-934d-dd87ca37b887 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:59:32 | INFO     | routers.ideas | Fetching idea 96c088a4-6b92-4a88-87fd-86448a617dc4 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:59:33 | INFO     | routers.ideas | Fetching idea 858188e0-57d7-40a0-8fc3-1d05b26143a6 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:59:34 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:59:38 | INFO     | services.ai | Chat response for idea=Sustainable Plant-Based Meal Kit Subscription Service
+2026-03-24 18:59:39 | INFO     | routers.chat | Chat message saved for idea=4ec5943a-9811-4861-94c5-e5a07089393f
+2026-03-24 18:59:48 | INFO     | services.ai | Chat response for idea=Sustainable Plant-Based Meal Kit Subscription Service
+2026-03-24 18:59:51 | INFO     | routers.chat | Chat message saved for idea=4ec5943a-9811-4861-94c5-e5a07089393f
+2026-03-24 18:59:57 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 18:59:57 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 18:59:59 | INFO     | services.ai | Chat response for idea=Sustainable Plant-Based Meal Kit Subscription Service
+2026-03-24 19:00:01 | INFO     | routers.chat | Chat message saved for idea=4ec5943a-9811-4861-94c5-e5a07089393f
+2026-03-24 19:00:04 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 19:00:04 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 19:00:07 | INFO     | services.ai | Chat response for idea=Sustainable Plant-Based Meal Kit Subscription Service
+2026-03-24 19:00:09 | INFO     | routers.chat | Chat message saved for idea=4ec5943a-9811-4861-94c5-e5a07089393f
+2026-03-24 19:00:51 | INFO     | main | Shutting down
+2026-03-24 19:00:53 | INFO     | main | Starting zeroto platform API
+2026-03-24 19:00:53 | INFO     | main | Database tables ready
+2026-03-24 19:00:54 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 19:00:54 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 19:00:58 | INFO     | services.ai | Chat response for idea=Sustainable Plant-Based Meal Kit Subscription Service
+2026-03-24 19:01:01 | INFO     | routers.chat | Chat message saved for idea=4ec5943a-9811-4861-94c5-e5a07089393f
+2026-03-24 19:01:03 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-24 19:01:03 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-24 19:01:12 | INFO     | services.ai | Chat response for idea=Sustainable Plant-Based Meal Kit Subscription Service
+2026-03-24 19:01:17 | INFO     | routers.chat | Chat message saved for idea=4ec5943a-9811-4861-94c5-e5a07089393f
+2026-03-26 21:35:31 | INFO     | main | Starting zeroto platform API
+2026-03-26 21:35:31 | INFO     | main | Database tables ready
+2026-03-26 21:35:33 | INFO     | main | Shutting down
+2026-03-26 21:35:37 | INFO     | main | Starting zeroto platform API
+2026-03-26 21:35:37 | INFO     | main | Database tables ready
+2026-03-26 21:36:07 | INFO     | routers.ideas | Listing ideas for user: retr0@gmail.com
+2026-03-26 21:36:09 | INFO     | routers.ideas | Fetching idea 4ec5943a-9811-4861-94c5-e5a07089393f for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-26 21:36:10 | INFO     | routers.ideas | Fetching idea 6c41c2b9-6e3e-4a6c-934d-dd87ca37b887 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-26 21:36:10 | INFO     | routers.ideas | Fetching idea 96c088a4-6b92-4a88-87fd-86448a617dc4 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-26 21:36:11 | INFO     | routers.ideas | Fetching idea 858188e0-57d7-40a0-8fc3-1d05b26143a6 for user 5141b1e4-9046-42f6-88ad-889df2ebee4c
+2026-03-26 21:36:25 | INFO     | routers.auth | New user registered: matteo.cola@hotmail.com
+2026-03-26 21:39:58 | INFO     | routers.auth | New user registered: matteo.cola@dasda.asd
+2026-03-26 21:40:37 | INFO     | routers.auth | New user registered: fasfdsf@ada.sad
+2026-03-26 21:41:04 | INFO     | routers.auth | New user registered: dsadasd@sadas.dsa
+2026-03-26 21:43:12 | INFO     | routers.auth | New user registered: sdadas@add.sad
+2026-03-26 21:43:32 | INFO     | routers.auth | New user registered: dasdas@adsad.dsad
+2026-03-26 21:44:08 | INFO     | routers.auth | New user registered: dasdas@adsad.dsadd
+2026-03-26 21:44:22 | INFO     | routers.auth | New user registered: sadasdasda@sd.asd
+2026-03-26 21:45:22 | INFO     | routers.auth | New user registered: sadasdasda@sd.asdd
+2026-03-26 21:50:03 | INFO     | routers.auth | New user registered: sadasdasda@sd.asddd
+2026-03-26 21:52:35 | INFO     | routers.auth | New user registered: dsadas@adsad.dsa
+2026-03-26 21:53:16 | INFO     | routers.auth | New user registered: dsadasd@adsad.dsad
+2026-03-26 21:54:47 | INFO     | routers.auth | New user registered: dsadasd@adsad.das
+2026-03-26 21:55:10 | INFO     | routers.auth | New user registered: dsadasd@adsad.daa
+2026-03-26 21:55:21 | INFO     | routers.auth | New user registered: dsadasd@adsad.daaa
+2026-03-26 21:55:43 | INFO     | routers.auth | New user registered: dsadas@saa.aa
+2026-03-26 21:55:43 | INFO     | routers.ideas | Listing ideas for user: dsadas@saa.aa
+2026-03-26 21:59:33 | INFO     | routers.ideas | Listing ideas for user: dsadas@saa.aa
+2026-03-26 22:01:48 | INFO     | main | Shutting down
+2026-03-26 22:04:10 | INFO     | main | Starting zeroto platform API
+2026-03-26 22:04:10 | INFO     | main | Database tables ready
+2026-03-26 22:04:32 | INFO     | routers.auth | New user registered: retr0@mail.com
+2026-03-26 22:04:32 | INFO     | routers.ideas | Listing ideas for user: retr0@mail.com
+2026-03-26 22:05:41 | INFO     | routers.analyze | POST /api/quick-read
+2026-03-26 22:05:41 | INFO     | services.ai | Quick read (length=167)
+2026-03-26 22:05:47 | INFO     | services.ai | Quick read done: title='Odor-Removing Fan' viability=7
+2026-03-26 22:07:14 | INFO     | routers.analyze | POST /api/full-analysis
+2026-03-26 22:07:14 | INFO     | services.ai | Full analysis (length=167)
+2026-03-26 22:07:28 | INFO     | services.ai | Full analysis done: title='Eco-Friendly Passive Odor-Eliminating Wardrobe Ventilation System' viability=4
+2026-03-26 22:07:47 | INFO     | routers.ideas | Idea created: id=54299bf9-d2d8-4542-837a-b77ea15e7478 user=0696b642-cb04-4112-ae8e-3541abacd66b
+2026-03-26 22:07:47 | INFO     | routers.ideas | Built idea detail for idea_id=54299bf9-d2d8-4542-837a-b77ea15e7478
+2026-03-26 22:07:47 | INFO     | routers.ideas | Committed DB session after building idea detail for idea_id=54299bf9-d2d8-4542-837a-b77ea15e7478
+2026-03-26 22:07:48 | INFO     | routers.ideas | Fetching idea 54299bf9-d2d8-4542-837a-b77ea15e7478 for user 0696b642-cb04-4112-ae8e-3541abacd66b
+2026-03-26 22:24:10 | INFO     | services.ai | Chat response for idea=Eco-Friendly Passive Odor-Eliminating Wardrobe Ventilation System
+2026-03-26 22:24:13 | INFO     | routers.chat | Chat message saved for idea=54299bf9-d2d8-4542-837a-b77ea15e7478
+2026-03-26 22:24:37 | INFO     | services.ai | Chat response for idea=Eco-Friendly Passive Odor-Eliminating Wardrobe Ventilation System
+2026-03-26 22:24:39 | INFO     | routers.chat | Chat message saved for idea=54299bf9-d2d8-4542-837a-b77ea15e7478
+2026-03-26 22:30:53 | INFO     | main | Shutting down

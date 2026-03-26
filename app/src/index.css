@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset the root container so it doesn't fight Tailwind */
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: inherit;
+  /* Stop forcing center alignment on everything */
+  border: none;
+}
+
+body {
+  margin: 0;
+  background-color: #0a0a0a;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+}

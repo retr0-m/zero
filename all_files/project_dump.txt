@@ -1,0 +1,2166 @@
+========================================
+FILE: ./App.jsx
+========================================
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useAuthStore } from './stores/authStore'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Dashboard from './pages/Dashboard'
+
+function PrivateRoute({ children }) {
+  const token = useAuthStore((s) => s.token)
+  return token ? children : <Navigate to="/login" replace />
+}
+
+function PublicRoute({ children }) {
+  const token = useAuthStore((s) => s.token)
+  return !token ? children : <Navigate to="/" replace />
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/login"
+          element={<PublicRoute><Login /></PublicRoute>}
+        />
+        <Route
+          path="/register"
+          element={<PublicRoute><Register /></PublicRoute>}
+        />
+        <Route
+          path="/*"
+          element={<PrivateRoute><Dashboard /></PrivateRoute>}
+        />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+========================================
+FILE: ./ChatTab.jsx
+========================================
+import { useState, useRef, useEffect } from 'react'
+import { sendChat } from '../../../api/client'
+
+function viabilityColor(score) {
+  if (score >= 8) return '#c8ff00'
+  if (score >= 6) return '#facc15'
+  if (score >= 4) return '#f97316'
+  return '#ef4444'
+}
+
+const STARTERS = [
+  'What should I do first?',
+  'How do I find my first customer?',
+  'What are the biggest risks here?',
+  'How do I validate this without spending money?',
+]
+
+export default function ChatTab({ idea }) {
+  const [messages, setMessages] = useState(idea.chat_messages || [])
+  const [input, setInput] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const bottomRef = useRef(null)
+  const inputRef = useRef(null)
+  const color = viabilityColor(idea.viability_score)
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  async function send(text) {
+    const msg = text.trim()
+    if (!msg || loading) return
+    setInput('')
+    setError('')
+
+    const userMsg = { id: Date.now(), role: 'user', content: msg }
+    setMessages((prev) => [...prev, userMsg])
+    setLoading(true)
+
+    try {
+      const { data } = await sendChat(idea.id, msg)
+      setMessages((prev) => [...prev, data])
+    } catch (err) {
+      setError('Failed to get a response. Try again.')
+      setMessages((prev) => prev.slice(0, -1)) // remove optimistic
+    } finally {
+      setLoading(false)
+      inputRef.current?.focus()
+    }
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      send(input)
+    }
+  }
+
+  return (
+    <div className="flex flex-col" style={{ height: 'calc(100vh - 260px)', minHeight: '400px' }}>
+      {/* messages */}
+      <div className="flex-1 overflow-y-auto space-y-3 pr-1 pb-3">
+        {messages.length === 0 && (
+          <div className="py-6 text-center space-y-4">
+            <p className="text-xs text-zinc-600 leading-relaxed">
+              Ask anything about your idea — strategy, pricing, marketing, execution.
+            </p>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {STARTERS.map((s) => (
+                <button
+                  key={s}
+                  onClick={() => send(s)}
+                  className="px-3 py-1.5 rounded-lg border border-white/8 text-xs text-zinc-500 hover:text-zinc-300 hover:border-white/15 transition-all font-mono"
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {messages.map((m) => (
+          <div
+            key={m.id}
+            className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
+            <div
+              className={`max-w-[85%] rounded-xl px-3.5 py-2.5 text-xs leading-relaxed ${
+                m.role === 'user'
+                  ? 'bg-zinc-800 text-zinc-200 rounded-br-sm'
+                  : 'bg-zinc-900 border border-white/5 text-zinc-300 rounded-bl-sm'
+              }`}
+            >
+              {m.role === 'assistant' && (
+                <span
+                  className="block font-mono text-[10px] mb-1.5 uppercase tracking-wider"
+                  style={{ color }}
+                >
+                  zeroto ai
+                </span>
+              )}
+              <p className="whitespace-pre-wrap">{m.content}</p>
+            </div>
+          </div>
+        ))}
+
+        {loading && (
+          <div className="flex justify-start">
+            <div className="bg-zinc-900 border border-white/5 rounded-xl rounded-bl-sm px-3.5 py-3">
+              <span
+                className="block font-mono text-[10px] mb-2 uppercase tracking-wider"
+                style={{ color }}
+              >
+                zeroto ai
+              </span>
+              <div className="flex gap-1.5 items-center">
+                {[0, 1, 2].map((i) => (
+                  <div
+                    key={i}
+                    className="w-1.5 h-1.5 rounded-full bg-zinc-600 animate-bounce"
+                    style={{ animationDelay: `${i * 120}ms` }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {error && (
+          <p className="text-xs text-red-400 font-mono text-center">{error}</p>
+        )}
+
+        <div ref={bottomRef} />
+      </div>
+
+      {/* input */}
+      <div className="pt-3 border-t border-white/5 flex-shrink-0">
+        <div className="flex gap-2 items-end">
+          <textarea
+            ref={inputRef}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKey}
+            rows={1}
+            placeholder="Ask something about your idea…"
+            className="flex-1 bg-zinc-900/60 border border-white/8 rounded-xl px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 outline-none focus:border-[#c8ff00]/40 resize-none transition-all leading-relaxed"
+            style={{ maxHeight: '120px', overflowY: 'auto' }}
+            disabled={loading}
+          />
+          <button
+            onClick={() => send(input)}
+            disabled={!input.trim() || loading}
+            className="p-2.5 rounded-xl transition-all disabled:opacity-30"
+            style={{ background: '#c8ff00' }}
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M7 1v12M7 1l-4 4M7 1l4 4" stroke="#0a0a0a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+        <p className="text-[11px] text-zinc-700 mt-1.5 font-mono">↵ send · shift+↵ newline</p>
+      </div>
+    </div>
+  )
+}
+
+========================================
+FILE: ./Dashboard.jsx
+========================================
+import { useState, useEffect } from 'react'
+import { Routes, Route, useNavigate, useParams, useLocation } from 'react-router-dom'
+import Sidebar from '../components/layout/Sidebar'
+import IdeaView from '../components/idea/IdeaView'
+import NewIdea from './NewIdea'
+import { listIdeas } from '../api/client'
+
+function EmptyState({ onNew }) {
+  return (
+    <div className="flex-1 flex items-center justify-center p-8">
+      <div className="text-center max-w-xs">
+        <div className="w-12 h-12 rounded-2xl border border-white/8 bg-zinc-900 flex items-center justify-center mx-auto mb-4">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 4v12M4 10h12" stroke="#c8ff00" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </div>
+        <h2 className="text-sm font-medium text-zinc-300 mb-2">No idea selected</h2>
+        <p className="text-xs text-zinc-600 leading-relaxed mb-4">
+          Pick one from the sidebar or start a fresh analysis.
+        </p>
+        <button
+          onClick={onNew}
+          className="px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all"
+          style={{ background: '#c8ff00', color: '#0a0a0a' }}
+        >
+          Analyze new idea
+        </button>
+      </div>
+    </div>
+  )
+}
+
+export default function Dashboard() {
+  const [ideas, setIdeas] = useState([])
+  const [loadingIdeas, setLoadingIdeas] = useState(true)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  async function fetchIdeas() {
+    try {
+      const { data } = await listIdeas()
+      setIdeas(data)
+    } catch {
+      // silent — auth error handled by interceptor
+    } finally {
+      setLoadingIdeas(false)
+    }
+  }
+
+  useEffect(() => { fetchIdeas() }, [])
+
+  // derive selected id from URL
+  const match = location.pathname.match(/\/ideas\/([^/]+)/)
+  const selectedId = match ? match[1] : null
+
+  function handleIdeaSaved(newIdea) {
+    setIdeas((prev) => [newIdea, ...prev])
+    navigate(`/ideas/${newIdea.id}`)
+  }
+
+  function handleIdeaDeleted(id) {
+    setIdeas((prev) => prev.filter((i) => i.id !== id))
+    navigate('/')
+  }
+
+  return (
+    <div className="flex h-screen bg-[#0a0a0a] overflow-hidden">
+      {/* mobile top bar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 py-3 border-b border-white/5 bg-zinc-950/90 backdrop-blur-sm">
+        <button onClick={() => setMobileOpen(true)} className="text-zinc-400 hover:text-zinc-200 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </button>
+        <span className="font-mono text-sm font-medium">
+          zero<span style={{ color: '#c8ff00' }}>to</span>
+        </span>
+        <button
+          onClick={() => navigate('/ideas/new')}
+          className="text-xs font-mono px-2.5 py-1 rounded-lg"
+          style={{ background: '#c8ff00', color: '#0a0a0a' }}
+        >
+          + New
+        </button>
+      </div>
+
+      <Sidebar
+        ideas={ideas}
+        loading={loadingIdeas}
+        selectedId={selectedId}
+        mobileOpen={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+      />
+
+      {/* main content */}
+      <main className="flex-1 overflow-hidden flex flex-col md:pt-0 pt-12">
+        <Routes>
+          <Route
+            path="/"
+            element={<EmptyState onNew={() => navigate('/ideas/new')} />}
+          />
+          <Route
+            path="/ideas/new"
+            element={<NewIdea onSaved={handleIdeaSaved} />}
+          />
+          <Route
+            path="/ideas/:id"
+            element={
+              <IdeaViewWrapper
+                onDeleted={handleIdeaDeleted}
+                onIdeaChange={fetchIdeas}
+              />
+            }
+          />
+        </Routes>
+      </main>
+    </div>
+  )
+}
+
+function IdeaViewWrapper({ onDeleted, onIdeaChange }) {
+  const { id } = useParams()
+  return <IdeaView key={id} ideaId={id} onDeleted={onDeleted} onIdeaChange={onIdeaChange} />
+}
+
+========================================
+FILE: ./IdeaView.jsx
+========================================
+import { useState, useEffect } from 'react'
+import { getIdea, deleteIdea } from '../../api/client'
+import IdeaHeader from './IdeaHeader'
+import MoneyTab from './tabs/MoneyTab'
+import PlanTab from './tabs/PlanTab'
+import ProblemsTab from './tabs/ProblemsTab'
+import ChatTab from './tabs/ChatTab'
+import PeopleTab from './tabs/PeopleTab'
+
+const TABS = [
+  { id: 'money', label: 'Money' },
+  { id: 'plan', label: 'Plan' },
+  { id: 'problems', label: 'Problems' },
+  { id: 'chat', label: 'Chat' },
+  { id: 'people', label: 'People' },
+]
+
+export default function IdeaView({ ideaId, onDeleted }) {
+  const [idea, setIdea] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [activeTab, setActiveTab] = useState('money')
+  const [deleting, setDeleting] = useState(false)
+
+  useEffect(() => {
+    async function load() {
+      setLoading(true)
+      setError('')
+      try {
+        const { data } = await getIdea(ideaId)
+        setIdea(data)
+      } catch {
+        setError('Could not load idea.')
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
+  }, [ideaId])
+
+  async function handleDelete() {
+    if (!confirm('Delete this idea? This cannot be undone.')) return
+    setDeleting(true)
+    try {
+      await deleteIdea(ideaId)
+      onDeleted?.(ideaId)
+    } catch {
+      setDeleting(false)
+    }
+  }
+
+  if (loading) return <LoadingSkeleton />
+  if (error) return (
+    <div className="flex-1 flex items-center justify-center">
+      <p className="text-xs text-zinc-600 font-mono">{error}</p>
+    </div>
+  )
+  if (!idea) return null
+
+  return (
+    <div className="flex-1 overflow-y-auto">
+      <div className="max-w-3xl mx-auto px-4 py-6">
+        {/* header */}
+        <IdeaHeader idea={idea} />
+
+        {/* tabs */}
+        <div className="flex items-center gap-1 mt-5 mb-5 border-b border-white/5 pb-1">
+          {TABS.map((t) => (
+            <button
+              key={t.id}
+              onClick={() => setActiveTab(t.id)}
+              className={`tab-btn ${activeTab === t.id ? 'active' : ''}`}
+            >
+              {t.label}
+            </button>
+          ))}
+          <div className="ml-auto">
+            <button
+              onClick={handleDelete}
+              disabled={deleting}
+              className="text-[11px] font-mono text-zinc-700 hover:text-red-500 transition-colors disabled:opacity-40"
+            >
+              {deleting ? 'Deleting…' : 'Delete'}
+            </button>
+          </div>
+        </div>
+
+        {/* tab content */}
+        <div className="min-h-[400px]">
+          {activeTab === 'money' && <MoneyTab tabs={idea.tabs} idea={idea} />}
+          {activeTab === 'plan' && <PlanTab tabs={idea.tabs} idea={idea} />}
+          {activeTab === 'problems' && <ProblemsTab tabs={idea.tabs} idea={idea} />}
+          {activeTab === 'chat' && <ChatTab idea={idea} />}
+          {activeTab === 'people' && <PeopleTab tabs={idea.tabs} idea={idea} />}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function LoadingSkeleton() {
+  return (
+    <div className="flex-1 overflow-y-auto">
+      <div className="max-w-3xl mx-auto px-4 py-6 space-y-5">
+        <div className="flex items-start justify-between gap-4">
+          <div className="space-y-2 flex-1">
+            <div className="skel h-4 rounded w-1/3" />
+            <div className="skel h-3 rounded w-2/3" />
+          </div>
+          <div className="skel w-16 h-8 rounded-full" />
+        </div>
+        <div className="flex gap-2 border-b border-white/5 pb-2">
+          {[60, 45, 70, 40, 55].map((w, i) => (
+            <div key={i} className="skel h-6 rounded-lg" style={{ width: `${w}px` }} />
+          ))}
+        </div>
+        <div className="grid grid-cols-3 gap-px bg-white/5 rounded-xl overflow-hidden border border-white/5">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="bg-zinc-950 p-4 space-y-2">
+              <div className="skel h-2.5 rounded w-1/2" />
+              <div className="skel h-5 rounded w-3/4" />
+              <div className="skel h-2 rounded w-full" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+========================================
+FILE: ./Login.jsx
+========================================
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { login, getMe } from '../api/client'
+import { useAuthStore } from '../stores/authStore'
+
+export default function Login() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const setAuth = useAuthStore((s) => s.setAuth)
+  const navigate = useNavigate()
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+    try {
+      const { data } = await login(email, password)
+      // fetch user info
+      const meRes = await getMe()
+      setAuth(data.access_token, meRes.data)
+      navigate('/')
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Login failed.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4">
+      <div className="w-full max-w-sm">
+        {/* logo */}
+        <div className="mb-8 text-center">
+          <span className="font-mono text-xl font-medium tracking-tight">
+            zero<span style={{ color: '#c8ff00' }}>to</span>
+          </span>
+          <p className="text-xs text-zinc-500 mt-1 font-mono">from idea to business plan</p>
+        </div>
+
+        <div className="rounded-2xl border border-white/6 bg-zinc-900/60 p-6 backdrop-blur-sm">
+          <h1 className="text-sm font-medium text-zinc-200 mb-5">Sign in</h1>
+
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div>
+              <label className="block text-xs font-mono text-zinc-500 mb-1.5">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full bg-zinc-800/60 border border-white/6 rounded-lg px-3 py-2 text-sm text-zinc-100 placeholder-zinc-600 outline-none focus:border-[#c8ff00]/40 focus:ring-1 focus:ring-[#c8ff00]/20 transition-all"
+                placeholder="you@example.com"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-mono text-zinc-500 mb-1.5">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full bg-zinc-800/60 border border-white/6 rounded-lg px-3 py-2 text-sm text-zinc-100 placeholder-zinc-600 outline-none focus:border-[#c8ff00]/40 focus:ring-1 focus:ring-[#c8ff00]/20 transition-all"
+                placeholder="••••••••"
+              />
+            </div>
+
+            {error && (
+              <p className="text-xs text-red-400 font-mono">{error}</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full mt-1 py-2 rounded-lg text-sm font-medium transition-all duration-150 disabled:opacity-50"
+              style={{ background: '#c8ff00', color: '#0a0a0a' }}
+            >
+              {loading ? 'Signing in…' : 'Sign in'}
+            </button>
+          </form>
+        </div>
+
+        <p className="text-center text-xs text-zinc-600 mt-4">
+          No account?{' '}
+          <Link to="/register" className="text-zinc-400 hover:text-zinc-200 transition-colors">
+            Create one free →
+          </Link>
+        </p>
+      </div>
+    </div>
+  )
+}
+
+========================================
+FILE: ./MoneyTab.jsx
+========================================
+function viabilityColor(score) {
+  if (score >= 8) return '#c8ff00'
+  if (score >= 6) return '#facc15'
+  if (score >= 4) return '#f97316'
+  return '#ef4444'
+}
+
+function fmt(n, currency = 'EUR') {
+  return `${currency} ${new Intl.NumberFormat('de-CH').format(Math.round(n))}`
+}
+
+// Simple bar chart using divs
+function RevenueChart({ revenue, color }) {
+  const max = revenue.month_12
+  const bars = [
+    { label: '3mo', value: revenue.month_3 },
+    { label: '6mo', value: revenue.month_6 },
+    { label: '12mo', value: revenue.month_12 },
+  ]
+
+  return (
+    <div className="flex items-end gap-3 h-20">
+      {bars.map(({ label, value }) => {
+        const pct = max > 0 ? Math.max((value / max) * 100, 4) : 4
+        return (
+          <div key={label} className="flex-1 flex flex-col items-center gap-1">
+            <span className="font-mono text-[10px] text-zinc-500">
+              {fmt(value, '')}
+            </span>
+            <div className="w-full rounded-t-md transition-all" style={{ height: `${pct * 0.6}px`, background: color + (value === 0 ? '20' : '60') }} />
+            <span className="font-mono text-[10px] text-zinc-600">{label}</span>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+export default function MoneyTab({ tabs, idea }) {
+  const money = tabs?.money
+  if (!money) return <Empty />
+
+  const { investment, revenue, timeline } = money
+  const color = viabilityColor(idea.viability_score)
+
+  return (
+    <div className="space-y-3">
+      {/* 3 metrics */}
+      <div className="grid grid-cols-3 gap-px bg-white/5 rounded-xl overflow-hidden border border-white/5">
+        <div className="bg-zinc-950 p-4">
+          <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">Investment</div>
+          <div className="font-mono text-sm font-medium text-zinc-100">
+            {fmt(investment.min)}–{new Intl.NumberFormat('de-CH').format(investment.max)}
+          </div>
+          <div className="text-[11px] text-zinc-600 mt-1.5 leading-relaxed">{investment.breakdown}</div>
+        </div>
+
+        <div className="bg-zinc-950 p-4">
+          <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">Revenue / 12mo</div>
+          <div className="font-mono text-sm font-medium" style={{ color }}>
+            {fmt(revenue.month_12, revenue.currency)}/mo
+          </div>
+          <div className="text-[11px] text-zinc-600 mt-1.5">
+            6mo: {fmt(revenue.month_6)} · 3mo: {fmt(revenue.month_3)}
+          </div>
+        </div>
+
+        <div className="bg-zinc-950 p-4">
+          <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">Break-even</div>
+          <div className="font-mono text-sm font-medium text-zinc-100">{timeline.break_even}</div>
+          <div className="text-[11px] text-zinc-600 mt-1.5">
+            1st customer: {timeline.first_customer}
+          </div>
+          {timeline.amortize && (
+            <div className="text-[11px] text-zinc-700 mt-0.5">
+              Full ROI: {timeline.amortize}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* revenue chart */}
+      <div className="rounded-xl border border-white/5 bg-zinc-950 p-4">
+        <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-4">Revenue trajectory</div>
+        <RevenueChart revenue={revenue} color={color} />
+      </div>
+
+      {/* first customers */}
+      <div className="rounded-xl border border-white/5 bg-zinc-950 p-4">
+        <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">First customer milestone</div>
+        <p className="text-xs text-zinc-400 leading-relaxed">
+          Expected within <span className="font-mono" style={{ color }}>{timeline.first_customer}</span> of launch.
+          Break-even projected at <span className="font-mono" style={{ color }}>{timeline.break_even}</span>.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function Empty() {
+  return <p className="text-xs text-zinc-600 font-mono">No financial data available.</p>
+}
+
+========================================
+FILE: ./NewIdea.jsx
+========================================
+import { useState, useRef, useEffect } from 'react'
+import { quickRead, fullAnalysis, saveIdea } from '../api/client'
+import { useLocation } from 'react-router-dom'
+
+function viabilityColor(score) {
+  if (score >= 8) return '#c8ff00'
+  if (score >= 6) return '#facc15'
+  if (score >= 4) return '#f97316'
+  return '#ef4444'
+}
+
+const BUDGET_OPTIONS = ['< EUR 1k', 'EUR 1–5k', 'EUR 5–20k', 'EUR 20k+']
+const HOURS_OPTIONS = ['< 1h / day', '1–2h / day', '3–5h / day', 'Full-time']
+
+// ─── Step 0: Idea input ────────────────────────────────────────────────────
+function IdeaInput({ onSubmit, loading, defaultValue }) {
+  const [text, setText] = useState(defaultValue || '')
+  const MIN = 20
+  const MAX = 2000
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    if (text.trim().length >= MIN) onSubmit(text.trim())
+  }
+
+  return (
+    <div className="max-w-xl mx-auto w-full">
+      <h2 className="text-sm font-medium text-zinc-300 mb-1">Describe your idea</h2>
+      <p className="text-xs text-zinc-600 mb-4 leading-relaxed">
+        Be as specific as you can — what it is, who it's for, how it makes money.
+      </p>
+      <form onSubmit={handleSubmit}>
+        <textarea
+          value={text}
+          onChange={(e) => setText(e.target.value.slice(0, MAX))}
+          rows={6}
+          placeholder="e.g. A subscription platform for local restaurants to send weekly meal kit boxes to their regular customers…"
+          className="w-full bg-zinc-900/60 border border-white/6 rounded-xl px-4 py-3 text-sm text-zinc-100 placeholder-zinc-600 outline-none focus:border-[#c8ff00]/40 focus:ring-1 focus:ring-[#c8ff00]/15 resize-none transition-all leading-relaxed"
+        />
+        <div className="flex items-center justify-between mt-2">
+          <span className={`text-xs font-mono ${text.length < MIN ? 'text-zinc-600' : 'text-zinc-500'}`}>
+            {text.length} / {MAX}
+          </span>
+          <button
+            type="submit"
+            disabled={loading || text.trim().length < MIN}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-40"
+            style={{ background: '#c8ff00', color: '#0a0a0a' }}
+          >
+            {loading ? (
+              <>
+                <span className="w-3 h-3 border border-black/30 border-t-black rounded-full animate-spin" />
+                Analyzing…
+              </>
+            ) : (
+              <>
+                Quick read
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </>
+            )}
+          </button>
+        </div>
+      </form>
+    </div>
+  )
+}
+
+// ─── Step 1: Quick read result + questions ─────────────────────────────────
+function QuickReadStep({ quickResult, idea, onSubmit, loading }) {
+  const [hours, setHours] = useState('')
+  const [budget, setBudget] = useState('')
+  const [answers, setAnswers] = useState({})
+  const color = viabilityColor(quickResult.viability_score)
+
+  function canSubmit() {
+    if (!hours || !budget) return false
+    return quickResult.questions.every((q) => answers[q.id]?.trim())
+  }
+
+  function handleSubmit() {
+    onSubmit({ hours_per_day: hours, budget, answers })
+  }
+
+  return (
+    <div className="max-w-xl mx-auto w-full space-y-5">
+      {/* quick read card */}
+      <div className="rounded-xl border border-white/6 bg-zinc-900/60 p-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <h2 className="text-sm font-semibold text-zinc-100">{quickResult.title}</h2>
+            <p className="text-xs text-zinc-500 mt-1 leading-relaxed">{quickResult.summary}</p>
+          </div>
+          <div
+            className="w-10 h-10 rounded-full flex items-center justify-center font-mono text-sm font-medium flex-shrink-0 border"
+            style={{ borderColor: color + '55', color, background: color + '10' }}
+          >
+            {quickResult.viability_score}
+          </div>
+        </div>
+      </div>
+
+      {/* fixed questions */}
+      <div className="space-y-4">
+        <div>
+          <label className="block text-xs font-mono text-zinc-500 mb-2">
+            How many hours per day can you work on this?
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {HOURS_OPTIONS.map((o) => (
+              <button
+                key={o}
+                onClick={() => setHours(o)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-mono border transition-all ${
+                  hours === o
+                    ? 'border-[#c8ff00]/50 bg-[#c8ff00]/10 text-[#c8ff00]'
+                    : 'border-white/8 text-zinc-500 hover:text-zinc-300 hover:border-white/15'
+                }`}
+              >
+                {o}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-xs font-mono text-zinc-500 mb-2">
+            What's your available budget?
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {BUDGET_OPTIONS.map((o) => (
+              <button
+                key={o}
+                onClick={() => setBudget(o)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-mono border transition-all ${
+                  budget === o
+                    ? 'border-[#c8ff00]/50 bg-[#c8ff00]/10 text-[#c8ff00]'
+                    : 'border-white/8 text-zinc-500 hover:text-zinc-300 hover:border-white/15'
+                }`}
+              >
+                {o}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* dynamic questions */}
+        {quickResult.questions.map((q) => (
+          <div key={q.id}>
+            <label className="block text-xs font-mono text-zinc-500 mb-2">{q.text}</label>
+            {q.type === 'choice' ? (
+              <div className="flex flex-wrap gap-2">
+                {q.choices?.map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => setAnswers((a) => ({ ...a, [q.id]: c }))}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-mono border transition-all ${
+                      answers[q.id] === c
+                        ? 'border-[#c8ff00]/50 bg-[#c8ff00]/10 text-[#c8ff00]'
+                        : 'border-white/8 text-zinc-500 hover:text-zinc-300 hover:border-white/15'
+                    }`}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <input
+                type="text"
+                value={answers[q.id] || ''}
+                onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value }))}
+                placeholder="Your answer…"
+                className="w-full bg-zinc-900/60 border border-white/6 rounded-lg px-3 py-2 text-sm text-zinc-100 placeholder-zinc-600 outline-none focus:border-[#c8ff00]/40 transition-all"
+              />
+            )}
+          </div>
+        ))}
+      </div>
+
+      <button
+        onClick={handleSubmit}
+        disabled={!canSubmit() || loading}
+        className="w-full py-2.5 rounded-xl text-sm font-medium transition-all disabled:opacity-40 flex items-center justify-center gap-2"
+        style={{ background: '#c8ff00', color: '#0a0a0a' }}
+      >
+        {loading ? (
+          <>
+            <span className="w-3 h-3 border border-black/30 border-t-black rounded-full animate-spin" />
+            Building full plan…
+          </>
+        ) : (
+          'Generate full plan →'
+        )}
+      </button>
+    </div>
+  )
+}
+
+// ─── Step 2: Full result + save ────────────────────────────────────────────
+function fmt(n, currency = 'EUR') {
+  return `${currency} ${new Intl.NumberFormat('de-CH').format(Math.round(n))}`
+}
+
+function ResultStep({ result, idea, onSave, saving }) {
+  const color = viabilityColor(result.viability_score)
+  const money = result
+
+  return (
+    <div className="max-w-2xl mx-auto w-full space-y-4 pb-8">
+      {/* header */}
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div>
+          <h2 className="text-base font-semibold text-zinc-100">{result.title}</h2>
+          <p className="text-xs text-zinc-500 mt-1 leading-relaxed max-w-lg">{result.summary}</p>
+        </div>
+        <div
+          className="flex items-center gap-2 px-3 py-1.5 rounded-full border flex-shrink-0"
+          style={{ borderColor: color + '40', background: color + '10' }}
+        >
+          <span className="font-mono text-sm font-medium" style={{ color }}>
+            {result.viability_score}/10
+          </span>
+        </div>
+      </div>
+
+      {/* money metrics */}
+      <div className="grid grid-cols-3 gap-px bg-white/5 rounded-xl overflow-hidden border border-white/5">
+        {[
+          { label: 'Investment', value: `${fmt(result.investment.min)}–${new Intl.NumberFormat('de-CH').format(result.investment.max)}`, sub: result.investment.breakdown },
+          { label: 'Revenue / 12mo', value: `${fmt(result.revenue.month_12)}/mo`, sub: `6mo: ${fmt(result.revenue.month_6)} · 3mo: ${fmt(result.revenue.month_3)}`, accent: true },
+          { label: 'Break-even', value: result.timeline.break_even, sub: `1st customer: ${result.timeline.first_customer}` },
+        ].map(({ label, value, sub, accent }) => (
+          <div key={label} className="bg-zinc-950 p-3">
+            <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-1.5">{label}</div>
+            <div className="font-mono text-sm font-medium" style={{ color: accent ? color : '#e4e4e7' }}>{value}</div>
+            <div className="text-[11px] text-zinc-600 mt-1 leading-relaxed">{sub}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* plan + roadmap */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/5 rounded-xl overflow-hidden border border-white/5">
+        <div className="bg-zinc-950 p-4">
+          <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-3">Business plan</div>
+          <ol className="space-y-2.5">
+            {result.business_plan.map((step, i) => (
+              <li key={i} className="flex gap-2.5 items-start">
+                <span className="font-mono text-[10px] text-zinc-600 pt-0.5 flex-shrink-0">0{i + 1}</span>
+                <span className="text-xs text-zinc-400 leading-relaxed">{step}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="bg-zinc-950 p-4">
+          <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-3">Roadmap</div>
+          <div className="space-y-3 relative">
+            <div className="absolute left-[4px] top-1 bottom-1 w-px bg-white/6" />
+            {result.roadmap.map((r, i) => (
+              <div key={i} className="flex gap-3 items-start pl-5 relative">
+                <span className="absolute left-0 top-1.5 w-2 h-2 rounded-full border flex-shrink-0" style={{ borderColor: color + '80', background: color + '20' }} />
+                <div>
+                  <span className="font-mono text-[10px] block mb-0.5" style={{ color }}>{r.when}</span>
+                  <span className="text-xs text-zinc-400 leading-relaxed">{r.milestone}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* problems preview */}
+      <div className="rounded-xl border border-white/5 bg-zinc-950 p-4">
+        <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-3">Key risks</div>
+        <div className="space-y-2">
+          {result.problems?.slice(0, 3).map((p, i) => (
+            <div key={i} className="flex items-start gap-2">
+              <span className="text-orange-400 mt-0.5 flex-shrink-0 text-xs">⚠</span>
+              <div>
+                <span className="text-xs font-medium text-zinc-300">{p.title}</span>
+                <span className="text-xs text-zinc-600 ml-1.5">{p.description}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* people */}
+      <div className="rounded-xl border border-white/5 bg-zinc-950 p-4">
+        <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-3">Who you need</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {result.contacts_needed.map((c, i) => (
+            <div key={i} className="rounded-lg border border-white/5 bg-zinc-900/50 p-3">
+              <div className="text-xs font-medium text-zinc-200 mb-0.5">{c.role}</div>
+              <div className="text-[11px] text-zinc-500 leading-relaxed mb-1.5">{c.why}</div>
+              <div className="font-mono text-[11px]" style={{ color }}>{c.where}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* save CTA */}
+      <div className="flex items-center justify-center pt-2">
+        <button
+          onClick={onSave}
+          disabled={saving}
+          className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium transition-all disabled:opacity-50"
+          style={{ background: '#c8ff00', color: '#0a0a0a' }}
+        >
+          {saving ? (
+            <>
+              <span className="w-3 h-3 border border-black/30 border-t-black rounded-full animate-spin" />
+              Saving…
+            </>
+          ) : (
+            <>
+              Save to my ideas
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </>
+          )}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ─── Main NewIdea page ─────────────────────────────────────────────────────
+export default function NewIdea({ onSaved }) {
+  const location = useLocation()
+  const pendingIdea = location.state?.pendingIdea || null
+
+  const [step, setStep] = useState(0) // 0: input, 1: questions, 2: result
+  const [idea, setIdea] = useState(pendingIdea || '')
+  const [quickResult, setQuickResult] = useState(null)
+  const [fullResult, setFullResult] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+  const topRef = useRef(null)
+
+  // auto-trigger quick read if coming from landing with pre-filled idea
+  useEffect(() => {
+    if (pendingIdea && step === 0) {
+      handleQuickRead(pendingIdea)
+    }
+  }, [])
+
+  function scrollTop() {
+    topRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  async function handleQuickRead(text) {
+    setError('')
+    setLoading(true)
+    setIdea(text)
+    try {
+      const { data } = await quickRead(text)
+      setQuickResult(data)
+      setStep(1)
+      scrollTop()
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Failed to analyze idea. Is the backend running?')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function handleFullAnalysis({ hours_per_day, budget, answers }) {
+    setError('')
+    setLoading(true)
+    try {
+      const { data } = await fullAnalysis({ idea, hours_per_day, budget, answers })
+      setFullResult(data)
+      setStep(2)
+      scrollTop()
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Failed to generate full plan.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function handleSave() {
+    setSaving(true)
+    try {
+      const { data } = await saveIdea(idea, fullResult)
+      onSaved?.(data)
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Failed to save idea.')
+      setSaving(false)
+    }
+  }
+
+  // step labels for breadcrumb
+  const steps = ['Describe', 'Refine', 'Review']
+
+  return (
+    <div className="flex-1 overflow-y-auto">
+      <div className="max-w-2xl mx-auto px-4 py-8" ref={topRef}>
+        {/* breadcrumb */}
+        <div className="flex items-center gap-2 mb-8">
+          {steps.map((s, i) => (
+            <div key={s} className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
+                <div
+                  className={`w-4 h-4 rounded-full border flex items-center justify-center text-[9px] font-mono transition-all ${
+                    i < step
+                      ? 'bg-[#c8ff00] border-[#c8ff00] text-black'
+                      : i === step
+                      ? 'border-[#c8ff00]/60 text-[#c8ff00]'
+                      : 'border-white/10 text-zinc-600'
+                  }`}
+                >
+                  {i < step ? '✓' : i + 1}
+                </div>
+                <span className={`text-xs font-mono ${i === step ? 'text-zinc-300' : 'text-zinc-600'}`}>{s}</span>
+              </div>
+              {i < steps.length - 1 && <div className="w-6 h-px bg-white/8" />}
+            </div>
+          ))}
+        </div>
+
+        {error && (
+          <div className="mb-4 p-3 rounded-lg border border-red-500/20 bg-red-500/5 text-xs text-red-400 font-mono">
+            {error}
+          </div>
+        )}
+
+        {step === 0 && (
+          <IdeaInput onSubmit={handleQuickRead} loading={loading} defaultValue={pendingIdea} />
+        )}
+        {step === 1 && quickResult && (
+          <QuickReadStep
+            quickResult={quickResult}
+            idea={idea}
+            onSubmit={handleFullAnalysis}
+            loading={loading}
+          />
+        )}
+        {step === 2 && fullResult && (
+          <ResultStep
+            result={fullResult}
+            idea={idea}
+            onSave={handleSave}
+            saving={saving}
+          />
+        )}
+      </div>
+    </div>
+  )
+}
+
+========================================
+FILE: ./PeopleTab.jsx
+========================================
+function viabilityColor(score) {
+  if (score >= 8) return '#c8ff00'
+  if (score >= 6) return '#facc15'
+  if (score >= 4) return '#f97316'
+  return '#ef4444'
+}
+
+const ROLE_ICONS = {
+  default: '👤',
+  developer: '💻',
+  designer: '🎨',
+  marketer: '📢',
+  sales: '🤝',
+  lawyer: '⚖️',
+  accountant: '📊',
+  mentor: '🧭',
+  investor: '💰',
+}
+
+function roleIcon(role) {
+  const r = role.toLowerCase()
+  if (r.includes('dev') || r.includes('engineer') || r.includes('tech')) return ROLE_ICONS.developer
+  if (r.includes('design') || r.includes('ux') || r.includes('ui')) return ROLE_ICONS.designer
+  if (r.includes('market') || r.includes('growth') || r.includes('seo')) return ROLE_ICONS.marketer
+  if (r.includes('sales') || r.includes('biz dev')) return ROLE_ICONS.sales
+  if (r.includes('law') || r.includes('legal') || r.includes('compliance')) return ROLE_ICONS.lawyer
+  if (r.includes('account') || r.includes('cfo') || r.includes('finance')) return ROLE_ICONS.accountant
+  if (r.includes('mentor') || r.includes('advisor')) return ROLE_ICONS.mentor
+  if (r.includes('invest') || r.includes('vc') || r.includes('angel')) return ROLE_ICONS.investor
+  return ROLE_ICONS.default
+}
+
+export default function PeopleTab({ tabs, idea }) {
+  const people = tabs?.people?.contacts_needed
+  if (!people?.length) return <Empty />
+
+  const color = viabilityColor(idea.viability_score)
+
+  return (
+    <div className="space-y-3">
+      <p className="text-xs text-zinc-600 leading-relaxed">
+        {people.length} role{people.length !== 1 ? 's' : ''} identified for this venture.
+      </p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {people.map((p, i) => (
+          <div
+            key={i}
+            className="rounded-xl border border-white/5 bg-zinc-950 p-4 hover:border-white/10 transition-all group"
+          >
+            <div className="flex items-start gap-3">
+              <div
+                className="w-9 h-9 rounded-xl flex items-center justify-center text-base flex-shrink-0"
+                style={{ background: color + '10', border: `1px solid ${color}20` }}
+              >
+                {roleIcon(p.role)}
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-medium text-zinc-200 leading-tight">{p.role}</div>
+                <div className="text-[11px] text-zinc-500 mt-1 leading-relaxed">{p.why}</div>
+              </div>
+            </div>
+            <div
+              className="mt-3 pt-3 border-t border-white/5 flex items-center gap-1.5"
+            >
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <circle cx="5" cy="5" r="4" stroke="currentColor" strokeWidth="1" style={{ color: color + '80' }} />
+                <path d="M5 3v2.5l1.5 1.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" style={{ color: color + '80' }} />
+              </svg>
+              <span className="font-mono text-[11px]" style={{ color }}>
+                {p.where}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function Empty() {
+  return <p className="text-xs text-zinc-600 font-mono">No people data available.</p>
+}
+
+========================================
+FILE: ./PlanTab.jsx
+========================================
+function viabilityColor(score) {
+  if (score >= 8) return '#c8ff00'
+  if (score >= 6) return '#facc15'
+  if (score >= 4) return '#f97316'
+  return '#ef4444'
+}
+
+export default function PlanTab({ tabs, idea }) {
+  const plan = tabs?.plan
+  if (!plan) return <Empty />
+
+  const { business_plan, roadmap } = plan
+  const color = viabilityColor(idea.viability_score)
+
+  return (
+    <div className="space-y-3">
+      {/* business plan */}
+      <div className="rounded-xl border border-white/5 bg-zinc-950 p-5">
+        <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-4">Business plan</div>
+        <ol className="space-y-4">
+          {business_plan.map((step, i) => (
+            <li key={i} className="flex gap-3 items-start">
+              <span
+                className="font-mono text-xs pt-0.5 flex-shrink-0 w-5 h-5 rounded flex items-center justify-center text-[10px]"
+                style={{ background: color + '15', color }}
+              >
+                {i + 1}
+              </span>
+              <span className="text-xs text-zinc-300 leading-relaxed">{step}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      {/* roadmap timeline */}
+      <div className="rounded-xl border border-white/5 bg-zinc-950 p-5">
+        <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-4">Roadmap</div>
+        <div className="relative space-y-4">
+          {/* vertical line */}
+          <div
+            className="absolute left-[7px] top-2 bottom-2 w-px"
+            style={{ background: `linear-gradient(to bottom, ${color}60, ${color}10)` }}
+          />
+          {roadmap.map((r, i) => (
+            <div key={i} className="flex gap-4 items-start pl-6 relative">
+              <span
+                className="absolute left-0 top-1.5 w-3.5 h-3.5 rounded-full border-2 flex-shrink-0"
+                style={{ borderColor: color, background: i === 0 ? color : '#0a0a0a' }}
+              />
+              <div className="min-w-0">
+                <span
+                  className="font-mono text-[10px] block mb-0.5 uppercase tracking-wider"
+                  style={{ color }}
+                >
+                  {r.when}
+                </span>
+                <span className="text-xs text-zinc-300 leading-relaxed">{r.milestone}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Empty() {
+  return <p className="text-xs text-zinc-600 font-mono">No plan data available.</p>
+}
+
+========================================
+FILE: ./ProblemsTab.jsx
+========================================
+import { useState } from 'react'
+
+export default function ProblemsTab({ tabs, idea }) {
+  const problems = tabs?.problems?.problems
+  const [expanded, setExpanded] = useState(null)
+
+  if (!problems?.length) return <Empty />
+
+  function toggle(i) {
+    setExpanded((prev) => (prev === i ? null : i))
+  }
+
+  return (
+    <div className="space-y-2">
+      <p className="text-xs text-zinc-600 leading-relaxed mb-4">
+        {problems.length} potential risks identified for this business model.
+      </p>
+
+      {problems.map((p, i) => (
+        <div
+          key={i}
+          className="rounded-xl border bg-zinc-950 overflow-hidden transition-all"
+          style={{ borderColor: expanded === i ? 'rgba(249,115,22,0.3)' : 'rgba(255,255,255,0.05)' }}
+        >
+          {/* header */}
+          <button
+            onClick={() => toggle(i)}
+            className="w-full flex items-start gap-3 p-4 text-left hover:bg-white/2 transition-colors"
+          >
+            <span className="text-orange-400 flex-shrink-0 mt-0.5 text-sm">⚠</span>
+            <div className="flex-1 min-w-0">
+              <div className="text-xs font-medium text-zinc-200">{p.title}</div>
+              <div className="text-[11px] text-zinc-500 mt-0.5 leading-relaxed line-clamp-1">
+                {p.description}
+              </div>
+            </div>
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              className={`flex-shrink-0 mt-0.5 text-zinc-600 transition-transform duration-200 ${
+                expanded === i ? 'rotate-180' : ''
+              }`}
+            >
+              <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+
+          {/* expanded */}
+          {expanded === i && (
+            <div className="px-4 pb-4 space-y-3 border-t border-white/5">
+              <div>
+                <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-wider mt-3 mb-1">The risk</div>
+                <p className="text-xs text-zinc-400 leading-relaxed">{p.description}</p>
+              </div>
+
+              <div>
+                <div className="text-[10px] font-mono uppercase tracking-wider mb-1" style={{ color: '#c8ff00cc' }}>
+                  How to face it
+                </div>
+                <p className="text-xs text-zinc-400 leading-relaxed">{p.mitigation}</p>
+              </div>
+
+              <div>
+                <div className="text-[10px] font-mono text-orange-500/70 uppercase tracking-wider mb-1">
+                  If this goes wrong…
+                </div>
+                <p className="text-xs text-zinc-400 leading-relaxed">{p.contingency}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function Empty() {
+  return <p className="text-xs text-zinc-600 font-mono">No risk data available.</p>
+}
+
+========================================
+FILE: ./Register.jsx
+========================================
+import { useState } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { register, getMe } from '../api/client'
+import { useAuthStore } from '../stores/authStore'
+
+export default function Register() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const setAuth = useAuthStore((s) => s.setAuth)
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  // if coming from landing with a pending idea, restore it
+  const pendingIdea = location.state?.pendingIdea || null
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setError('')
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.')
+      return
+    }
+    setLoading(true)
+    try {
+      const { data } = await register(email, password)
+      const meRes = await getMe()
+      setAuth(data.access_token, meRes.data)
+      // redirect to new idea page with pre-filled idea if coming from landing
+      if (pendingIdea) {
+        navigate('/ideas/new', { state: { pendingIdea } })
+      } else {
+        navigate('/')
+      }
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Registration failed.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4">
+      <div className="w-full max-w-sm">
+        <div className="mb-8 text-center">
+          <span className="font-mono text-xl font-medium tracking-tight">
+            zero<span style={{ color: '#c8ff00' }}>to</span>
+          </span>
+          <p className="text-xs text-zinc-500 mt-1 font-mono">from idea to business plan</p>
+        </div>
+
+        <div className="rounded-2xl border border-white/6 bg-zinc-900/60 p-6 backdrop-blur-sm">
+          <h1 className="text-sm font-medium text-zinc-200 mb-1">Create your free account</h1>
+          <p className="text-xs text-zinc-500 mb-5">No credit card. No trial. Just free.</p>
+
+          {pendingIdea && (
+            <div className="mb-4 p-3 rounded-lg border border-[#c8ff00]/20 bg-[#c8ff00]/5 text-xs text-zinc-400">
+              <span style={{ color: '#c8ff00' }}>✓</span> Your idea analysis will be ready right after signup.
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div>
+              <label className="block text-xs font-mono text-zinc-500 mb-1.5">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full bg-zinc-800/60 border border-white/6 rounded-lg px-3 py-2 text-sm text-zinc-100 placeholder-zinc-600 outline-none focus:border-[#c8ff00]/40 focus:ring-1 focus:ring-[#c8ff00]/20 transition-all"
+                placeholder="you@example.com"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-mono text-zinc-500 mb-1.5">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full bg-zinc-800/60 border border-white/6 rounded-lg px-3 py-2 text-sm text-zinc-100 placeholder-zinc-600 outline-none focus:border-[#c8ff00]/40 focus:ring-1 focus:ring-[#c8ff00]/20 transition-all"
+                placeholder="min. 8 characters"
+              />
+            </div>
+
+            {error && (
+              <p className="text-xs text-red-400 font-mono">{error}</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full mt-1 py-2 rounded-lg text-sm font-medium transition-all duration-150 disabled:opacity-50"
+              style={{ background: '#c8ff00', color: '#0a0a0a' }}
+            >
+              {loading ? 'Creating account…' : 'Create free account'}
+            </button>
+          </form>
+        </div>
+
+        <p className="text-center text-xs text-zinc-600 mt-4">
+          Already have an account?{' '}
+          <Link to="/login" className="text-zinc-400 hover:text-zinc-200 transition-colors">
+            Sign in →
+          </Link>
+        </p>
+      </div>
+    </div>
+  )
+}
+
+========================================
+FILE: ./Sidebar.jsx
+========================================
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useAuthStore } from '../../stores/authStore'
+
+function viabilityColor(score) {
+  if (score >= 8) return '#c8ff00'
+  if (score >= 6) return '#facc15'
+  if (score >= 4) return '#f97316'
+  return '#ef4444'
+}
+
+function IdeaCard({ idea, active, onClick }) {
+  const color = viabilityColor(idea.viability_score)
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full text-left px-3 py-2.5 rounded-xl transition-all duration-100 group ${
+        active
+          ? 'bg-white/6 border border-white/8'
+          : 'hover:bg-white/4 border border-transparent'
+      }`}
+    >
+      <div className="flex items-center gap-2.5">
+        {/* viability ring avatar */}
+        <div
+          className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-mono font-medium flex-shrink-0 border"
+          style={{ borderColor: color + '55', color, background: color + '12' }}
+        >
+          {idea.viability_score}
+        </div>
+        <div className="min-w-0">
+          <div className="text-xs font-medium text-zinc-200 truncate leading-tight">
+            {idea.title}
+          </div>
+          <div className="text-[11px] text-zinc-500 truncate leading-tight mt-0.5">
+            {idea.description}
+          </div>
+        </div>
+      </div>
+    </button>
+  )
+}
+
+export default function Sidebar({ ideas, loading, selectedId, onSelect, mobileOpen, onClose }) {
+  const navigate = useNavigate()
+  const logout = useAuthStore((s) => s.logout)
+  const user = useAuthStore((s) => s.user)
+
+  function handleNew() {
+    navigate('/ideas/new')
+    onClose?.()
+  }
+
+  function handleSelect(id) {
+    navigate(`/ideas/${id}`)
+    onSelect?.(id)
+    onClose?.()
+  }
+
+  function handleLogout() {
+    logout()
+    navigate('/login')
+  }
+
+  const inner = (
+    <div className="flex flex-col h-full">
+      {/* header */}
+      <div className="px-4 py-4 border-b border-white/5 flex items-center justify-between flex-shrink-0">
+        <span className="font-mono text-sm font-medium tracking-tight">
+          zero<span style={{ color: '#c8ff00' }}>to</span>
+        </span>
+        <button
+          onClick={handleNew}
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono font-medium transition-all"
+          style={{ background: '#c8ff00', color: '#0a0a0a' }}
+        >
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path d="M5 1v8M1 5h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+          New idea
+        </button>
+      </div>
+
+      {/* ideas list */}
+      <div className="flex-1 overflow-y-auto px-2 py-3 space-y-0.5">
+        {loading ? (
+          <div className="space-y-2 px-2">
+            {[80, 65, 90].map((w, i) => (
+              <div key={i} className="flex items-center gap-2.5 py-2.5">
+                <div className="skel w-8 h-8 rounded-full flex-shrink-0" />
+                <div className="flex-1 space-y-1.5">
+                  <div className="skel h-2.5 rounded" style={{ width: `${w}%` }} />
+                  <div className="skel h-2 rounded" style={{ width: `${w - 20}%` }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : ideas.length === 0 ? (
+          <div className="px-3 py-8 text-center">
+            <p className="text-xs text-zinc-600 leading-relaxed">
+              No ideas yet.<br />
+              <button onClick={handleNew} className="text-zinc-400 hover:text-zinc-200 underline underline-offset-2 transition-colors">
+                Analyze your first idea →
+              </button>
+            </p>
+          </div>
+        ) : (
+          ideas.map((idea) => (
+            <IdeaCard
+              key={idea.id}
+              idea={idea}
+              active={idea.id === selectedId}
+              onClick={() => handleSelect(idea.id)}
+            />
+          ))
+        )}
+      </div>
+
+      {/* footer */}
+      <div className="px-4 py-3 border-t border-white/5 flex-shrink-0 flex items-center justify-between">
+        <span className="text-[11px] text-zinc-600 truncate font-mono">{user?.email}</span>
+        <button
+          onClick={handleLogout}
+          className="text-[11px] text-zinc-600 hover:text-zinc-400 font-mono transition-colors ml-2 flex-shrink-0"
+        >
+          out →
+        </button>
+      </div>
+    </div>
+  )
+
+  return (
+    <>
+      {/* desktop sidebar */}
+      <aside className="hidden md:flex w-64 flex-col h-full border-r border-white/5 bg-zinc-950/80 flex-shrink-0">
+        {inner}
+      </aside>
+
+      {/* mobile drawer */}
+      {mobileOpen && (
+        <div className="md:hidden fixed inset-0 z-50 flex">
+          <div className="absolute inset-0 bg-black/60" onClick={onClose} />
+          <aside className="relative w-72 h-full bg-zinc-950 border-r border-white/5 flex flex-col z-10">
+            {inner}
+          </aside>
+        </div>
+      )}
+    </>
+  )
+}
+
+========================================
+FILE: ./app.js
+========================================
+const API_BASE = 'http://localhost:8000/api';
+
+// The URL of your React SaaS app
+const APP_URL = '/app'; // adjust if hosted elsewhere, e.g. 'https://app.zeroto.com'
+
+document.addEventListener('DOMContentLoaded', function () {
+  const btn = document.getElementById('analyze-btn');
+  if (btn) btn.addEventListener('click', startQuickRead);
+});
+
+const state = {
+  idea: '',
+  quickRead: null,
+  questions: [],
+  step: 'input',
+};
+
+AOS.init({ once: true, easing: 'ease-out-cubic', offset: 60 });
+
+document.getElementById('idea-input').addEventListener('input', function () {
+  document.getElementById('char-count').textContent = `${this.value.length} / 1000`;
+});
+
+document.getElementById('idea-input').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) startQuickRead();
+});
+
+// ── canvas particle network ──────────────────────────────────────────────────
+(function () {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  const mouse = { x: -1000, y: -1000 };
+  const N = 80;
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  function init() {
+    particles = [];
+    for (let i = 0; i < N; i++) {
+      particles.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, r: Math.random() * 1.5 + 0.5 });
+    }
+  }
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener('resize', () => { resize(); init(); });
+  resize(); init();
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (let i = 0; i < N; i++) {
+      const p = particles[i];
+      const dx = p.x - mouse.x, dy = p.y - mouse.y, dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) { p.vx += (dx / dist) * 0.04; p.vy += (dy / dist) * 0.04; }
+      p.vx *= 0.995; p.vy *= 0.995;
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.fill();
+      for (let j = i + 1; j < N; j++) {
+        const q = particles[j];
+        const ex = p.x - q.x, ey = p.y - q.y, ed = Math.sqrt(ex * ex + ey * ey);
+        if (ed < 130) {
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = `rgba(200,255,0,${(1 - ed / 130) * 0.12})`; ctx.lineWidth = 0.6; ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── helpers ──────────────────────────────────────────────────────────────────
+function fmt(n, currency) {
+  return currency + ' ' + new Intl.NumberFormat('de-CH').format(Math.round(n));
+}
+function showError(msg) {
+  const el = document.getElementById('error-box');
+  el.textContent = msg; el.classList.remove('hidden');
+}
+function hideError() { document.getElementById('error-box').classList.add('hidden'); }
+function scrollToOutput() {
+  setTimeout(() => document.getElementById('output').scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+}
+function viabilityColor(score) {
+  if (score <= 3) return '#ff4d4d';
+  if (score <= 5) return '#ffaa00';
+  if (score <= 7) return '#c8ff00';
+  return '#4dff91';
+}
+
+// ── step 1: quick read ───────────────────────────────────────────────────────
+async function startQuickRead() {
+  const idea = document.getElementById('idea-input').value.trim();
+  if (idea.length < 20) { showError('Please describe your idea in a bit more detail.'); return; }
+  state.idea = idea;
+  hideError();
+
+  const btn = document.getElementById('analyze-btn');
+  const label = document.getElementById('btn-label');
+  const arrow = document.getElementById('btn-arrow');
+  const spinner = document.getElementById('btn-spinner');
+  btn.disabled = true; label.textContent = 'Reading idea'; arrow.classList.add('hidden'); spinner.classList.remove('hidden');
+
+  const output = document.getElementById('output');
+  output.classList.remove('hidden');
+  output.innerHTML = renderQuickReadSkeleton();
+  scrollToOutput();
+
+  try {
+    const res = await fetch(`${API_BASE}/quick-read`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ idea }) });
+    if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.detail || `Error ${res.status}`); }
+    const data = await res.json();
+    state.quickRead = data; state.questions = data.questions;
+    renderQuickRead(data);
+  } catch (err) {
+    output.classList.add('hidden');
+    showError(err.message || 'Something went wrong. Is the backend running?');
+  } finally {
+    btn.disabled = false; label.textContent = 'Analyze'; arrow.classList.remove('hidden'); spinner.classList.add('hidden');
+  }
+}
+
+function renderQuickReadSkeleton() {
+  return `
+    <div class="shimmer-border rounded-2xl bg-zinc-900 border border-white/8 p-6 space-y-4">
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div class="flex-1 space-y-2">
+          <div class="skel skel-header"></div>
+          <div class="skel skel-line skel-line-full"></div>
+          <div class="skel skel-line skel-line-mid"></div>
+        </div>
+        <div class="flex-shrink-0 space-y-2">
+          <div class="skel skel-score"></div>
+          <div class="skel skel-bar"></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderRejected(data) {
+  const output = document.getElementById('output');
+  output.innerHTML = `
+    <div data-aos="fade-up" class="rounded-2xl border border-red-900/40 bg-red-950/20 p-6">
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#ff4d4d" stroke-width="1.5"/><path d="M7 4v3M7 9.5v.5" stroke="#ff4d4d" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span class="text-xs font-mono text-red-400 uppercase tracking-widest">Not viable</span>
+          </div>
+          <h3 class="font-serif text-3xl font-normal tracking-tight mb-2 text-zinc-200">${data.title}</h3>
+          <p class="text-sm text-red-300/80 max-w-lg leading-relaxed">${data.summary}</p>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <div class="text-xs font-mono text-zinc-500 mb-2 uppercase tracking-widest">Viability</div>
+          <div class="font-mono text-4xl font-medium text-red-400">${data.viability_score}/10</div>
+          <div class="w-24 h-px bg-white/10 mt-2 rounded-full overflow-hidden"><div class="viability-fill" style="width:0%;background:#ff4d4d" id="viability-bar"></div></div>
+        </div>
+      </div>
+      <div class="mt-5 pt-5 border-t border-red-900/30 flex items-center justify-between gap-4 flex-wrap">
+        <p class="text-xs text-zinc-500 font-mono">Refine the idea and try again, or start fresh.</p>
+        <button onclick="restart()" class="px-5 py-2 rounded-full border border-white/10 text-xs text-zinc-300 hover:border-white/30 hover:text-white transition-all">Try another idea</button>
+      </div>
+    </div>`;
+  AOS.refresh();
+  setTimeout(() => { document.getElementById('viability-bar').style.width = `${data.viability_score * 10}%`; }, 120);
+  scrollToOutput();
+}
+
+function renderQuickRead(data) {
+  if (data.viability_score <= 2) { renderRejected(data); return; }
+  const color = viabilityColor(data.viability_score);
+  const output = document.getElementById('output');
+  output.innerHTML = `
+    <div data-aos="fade-up" class="shimmer-border rounded-2xl bg-zinc-900 border border-white/8 p-6">
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h3 class="font-serif text-3xl font-normal tracking-tight mb-1">${data.title}</h3>
+          <p class="text-sm text-zinc-400 max-w-lg leading-relaxed">${data.summary}</p>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <div class="text-xs font-mono text-zinc-500 mb-2 uppercase tracking-widest">Viability</div>
+          <div class="font-mono text-4xl font-medium" style="color:${color}">${data.viability_score}/10</div>
+          <div class="w-24 h-px bg-white/10 mt-2 rounded-full overflow-hidden"><div class="viability-fill" style="width:0%;background:linear-gradient(90deg,${color},#fff)" id="viability-bar"></div></div>
+        </div>
+      </div>
+    </div>
+    ${renderQuestionsForm(data.questions)}`;
+  AOS.refresh();
+  setTimeout(() => { document.getElementById('viability-bar').style.width = `${data.viability_score * 10}%`; }, 120);
+  scrollToOutput();
+}
+
+function renderQuestionsForm(questions) {
+  const fixedHtml = `
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="bg-zinc-900 rounded-xl border border-white/8 p-4">
+        <label class="text-xs font-mono text-zinc-500 uppercase tracking-wider block mb-3">Hours per day available</label>
+        <div class="flex flex-wrap gap-2" id="fixed-hours">
+          ${['< 1h', '1-2h', '3-4h', 'Full time'].map(o => `<button onclick="selectChoice(this,'fixed-hours')" class="choice-btn px-3 py-1.5 rounded-full border border-white/10 text-xs text-zinc-400 hover:border-lime/50 hover:text-lime transition-all">${o}</button>`).join('')}
+        </div>
+      </div>
+      <div class="bg-zinc-900 rounded-xl border border-white/8 p-4">
+        <label class="text-xs font-mono text-zinc-500 uppercase tracking-wider block mb-3">Available budget</label>
+        <div class="flex flex-wrap gap-2" id="fixed-budget">
+          ${['< EUR 1k', 'EUR 1-5k', 'EUR 5-20k', 'EUR 20k+'].map(o => `<button onclick="selectChoice(this,'fixed-budget')" class="choice-btn px-3 py-1.5 rounded-full border border-white/10 text-xs text-zinc-400 hover:border-lime/50 hover:text-lime transition-all">${o}</button>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  const dynamicHtml = questions.map(q => `
+    <div class="bg-zinc-900 rounded-xl border border-white/8 p-4" data-question-id="${q.id}">
+      <label class="text-xs font-mono text-zinc-500 uppercase tracking-wider block mb-3">${q.text}</label>
+      ${q.type === 'choice'
+        ? `<div class="flex flex-wrap gap-2" id="dyn-${q.id}">${(q.choices || []).map(o => `<button onclick="selectChoice(this,'dyn-${q.id}')" class="choice-btn px-3 py-1.5 rounded-full border border-white/10 text-xs text-zinc-400 hover:border-lime/50 hover:text-lime transition-all">${o}</button>`).join('')}</div>`
+        : `<input type="text" id="dyn-${q.id}" class="w-full bg-zinc-800 border border-white/8 rounded-lg px-3 py-2 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-lime/40 transition-colors" placeholder="Your answer..."/>`
+      }
+    </div>`).join('');
+
+  return `
+    <div data-aos="fade-up" data-aos-delay="100" class="space-y-3">
+      <div class="text-xs font-mono text-zinc-500 uppercase tracking-widest px-1 pt-2">A few quick questions</div>
+      ${fixedHtml}
+      ${dynamicHtml}
+      <div class="flex justify-end pt-2">
+        <button onclick="startFullAnalysis()" class="flex items-center gap-2 px-6 py-2.5 rounded-full bg-lime text-black text-xs font-medium hover:bg-lime-dark transition-colors">
+          Generate full plan
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6M5 2l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>`;
+}
+
+function selectChoice(btn, groupId) {
+  document.querySelectorAll(`#${groupId} .choice-btn`).forEach(b => { b.classList.remove('border-lime', 'text-lime', 'bg-lime/10'); b.classList.add('border-white/10', 'text-zinc-400'); });
+  btn.classList.add('border-lime', 'text-lime', 'bg-lime/10'); btn.classList.remove('border-white/10', 'text-zinc-400');
+}
+
+function collectAnswers() {
+  const errors = [];
+  const hoursBtn = document.querySelector('#fixed-hours .border-lime');
+  if (!hoursBtn) errors.push('hours_per_day');
+  const hours = hoursBtn ? hoursBtn.textContent.trim() : null;
+  const budgetBtn = document.querySelector('#fixed-budget .border-lime');
+  if (!budgetBtn) errors.push('budget');
+  const budget = budgetBtn ? budgetBtn.textContent.trim() : null;
+  const answers = {};
+  for (const q of state.questions) {
+    if (q.type === 'choice') {
+      const selected = document.querySelector(`#dyn-${q.id} .border-lime`);
+      if (!selected) errors.push(q.id); else answers[q.id] = selected.textContent.trim();
+    } else {
+      const input = document.getElementById(`dyn-${q.id}`);
+      const val = input ? input.value.trim() : '';
+      if (!val) errors.push(q.id); else answers[q.id] = val;
+    }
+  }
+  return { hours, budget, answers, errors };
+}
+
+// ── step 2: full analysis ────────────────────────────────────────────────────
+async function startFullAnalysis() {
+  const { hours, budget, answers, errors } = collectAnswers();
+  if (errors.length > 0) { showError('Please answer all questions before generating the full plan.'); return; }
+  hideError();
+
+  const output = document.getElementById('output');
+  const fullSkeleton = document.createElement('div');
+  fullSkeleton.id = 'full-skeleton'; fullSkeleton.className = 'space-y-4 mt-4';
+  fullSkeleton.innerHTML = renderFullSkeleton();
+  output.appendChild(fullSkeleton);
+  fullSkeleton.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  const genBtn = document.querySelector('button[onclick="startFullAnalysis()"]');
+  if (genBtn) { genBtn.disabled = true; genBtn.textContent = 'Generating...'; genBtn.classList.add('opacity-50'); }
+
+  try {
+    const res = await fetch(`${API_BASE}/full-analysis`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ idea: state.idea, hours_per_day: hours, budget, answers }) });
+    if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.detail || `Error ${res.status}`); }
+    const data = await res.json();
+    renderFullResult(data);
+  } catch (err) {
+    document.getElementById('full-skeleton')?.remove();
+    showError(err.message || 'Something went wrong. Is the backend running?');
+    if (genBtn) { genBtn.disabled = false; genBtn.innerHTML = 'Generate full plan <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6M5 2l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'; genBtn.classList.remove('opacity-50'); }
+  }
+}
+
+function renderFullSkeleton() {
+  return `
+    <div class="grid grid-cols-3 gap-px bg-white/5 rounded-2xl overflow-hidden border border-white/5">
+      ${[0,1,2].map(() => `<div class="bg-zinc-950 p-4"><div class="skel skel-line mb-3" style="width:60%;height:10px"></div><div class="skel skel-metric"></div><div class="skel skel-metric-note mt-2"></div></div>`).join('')}
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/5 rounded-2xl overflow-hidden border border-white/5">
+      <div class="bg-zinc-950 p-5"><div class="skel skel-line mb-4" style="width:45%;height:10px"></div>${[85,70,90,75,80].map(w=>`<div class="flex gap-3 mb-3"><div class="skel" style="width:16px;height:12px;flex-shrink:0;border-radius:3px"></div><div class="skel skel-line" style="width:${w}%"></div></div>`).join('')}</div>
+      <div class="bg-zinc-950 p-5"><div class="skel skel-line mb-4" style="width:35%;height:10px"></div>${[0,1,2,3].map(()=>`<div class="flex gap-3 items-start pl-6 mb-4 relative"><div class="skel skel-roadmap-dot absolute left-0 top-1"></div><div><div class="skel skel-roadmap-when"></div><div class="skel skel-roadmap-text mt-1"></div></div></div>`).join('')}</div>
+    </div>
+    <div class="shimmer-border rounded-2xl bg-zinc-900 border border-white/8 p-5">
+      <div class="skel skel-line mb-4" style="width:35%;height:10px"></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">${[0,1,2,3].map(()=>`<div class="bg-zinc-800/50 rounded-xl p-4 border border-white/5"><div class="skel skel-contact-title"></div><div class="skel skel-contact-why"></div><div class="skel skel-contact-where"></div></div>`).join('')}</div>
+    </div>`;
+}
+
+// ── full result renderer with blur CTA ───────────────────────────────────────
+function renderFullResult(d) {
+  document.getElementById('full-skeleton')?.remove();
+  const color = viabilityColor(d.viability_score);
+  const output = document.getElementById('output');
+
+  const fullHtml = document.createElement('div');
+  fullHtml.className = 'space-y-4 mt-4';
+
+  // ① metrics — always visible
+  const metricsEl = document.createElement('div');
+  metricsEl.setAttribute('data-aos', 'fade-up');
+  metricsEl.className = 'grid grid-cols-3 gap-px bg-white/5 rounded-2xl overflow-hidden border border-white/5';
+  metricsEl.innerHTML = `
+    <div class="bg-zinc-950 p-4">
+      <div class="text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2">Investment</div>
+      <div class="font-mono text-lg text-white font-medium">${d.investment.currency} ${new Intl.NumberFormat('de-CH').format(d.investment.min)}–${new Intl.NumberFormat('de-CH').format(d.investment.max)}</div>
+      <div class="text-xs text-zinc-500 mt-1 leading-relaxed">${d.investment.breakdown}</div>
+    </div>
+    <div class="bg-zinc-950 p-4">
+      <div class="text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2">Revenue / 12mo</div>
+      <div class="font-mono text-lg font-medium" style="color:${color}">${fmt(d.revenue.month_12, d.revenue.currency)}/mo</div>
+      <div class="text-xs text-zinc-500 mt-1">6mo: ${fmt(d.revenue.month_6, d.revenue.currency)} &middot; 3mo: ${fmt(d.revenue.month_3, d.revenue.currency)}</div>
+    </div>
+    <div class="bg-zinc-950 p-4">
+      <div class="text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2">Break-even</div>
+      <div class="font-mono text-lg text-white font-medium">${d.timeline.break_even}</div>
+      <div class="text-xs text-zinc-500 mt-1">1st customer: ${d.timeline.first_customer}</div>
+    </div>`;
+  fullHtml.appendChild(metricsEl);
+
+  // ② plan + roadmap — blurred
+  const planEl = document.createElement('div');
+  planEl.setAttribute('data-aos', 'fade-up');
+  planEl.className = 'relative';
+  planEl.innerHTML = `
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/5 rounded-2xl overflow-hidden border border-white/5 blur-preview">
+      <div class="bg-zinc-950 p-5">
+        <div class="text-xs font-mono text-zinc-500 uppercase tracking-wider mb-4">Business plan</div>
+        <ol class="space-y-3">
+          ${d.business_plan.map((step, i) => `<li class="flex gap-3 items-start"><span class="font-mono text-xs text-zinc-600 pt-0.5 flex-shrink-0">0${i+1}</span><span class="text-xs text-zinc-300 leading-relaxed">${step}</span></li>`).join('')}
+        </ol>
+      </div>
+      <div class="bg-zinc-950 p-5">
+        <div class="text-xs font-mono text-zinc-500 uppercase tracking-wider mb-4">Roadmap</div>
+        <div class="space-y-1 relative">
+          <div class="roadmap-line"></div>
+          ${d.roadmap.map(r => `<div class="flex gap-3 items-start pl-6 relative"><span class="absolute left-0 top-1.5 w-2.5 h-2.5 rounded-full bg-zinc-800 border flex-shrink-0" style="border-color:${color}55"></span><div><span class="font-mono text-xs block mb-0.5" style="color:${color}">${r.when}</span><span class="text-xs text-zinc-400 leading-relaxed">${r.milestone}</span></div></div>`).join('')}
+        </div>
+      </div>
+    </div>
+    ${blurOverlay('Business plan & Roadmap')}`;
+  fullHtml.appendChild(planEl);
+
+  // ③ contacts — blurred
+  const contactsEl = document.createElement('div');
+  contactsEl.setAttribute('data-aos', 'fade-up');
+  contactsEl.className = 'relative';
+  contactsEl.innerHTML = `
+    <div class="shimmer-border rounded-2xl bg-zinc-900 border border-white/8 p-5 blur-preview">
+      <div class="text-xs font-mono text-zinc-500 uppercase tracking-wider mb-4">Who you need</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        ${d.contacts_needed.map(c => `<div class="bg-zinc-800/50 rounded-xl p-4 border border-white/5"><div class="text-xs font-medium text-zinc-200 mb-1">${c.role}</div><div class="text-xs text-zinc-500 mb-2 leading-relaxed">${c.why}</div><div class="font-mono text-xs" style="color:${color}">${c.where}</div></div>`).join('')}
+      </div>
+    </div>
+    ${blurOverlay('Who you need')}`;
+  fullHtml.appendChild(contactsEl);
+
+  // ④ restart
+  const restartEl = document.createElement('div');
+  restartEl.className = 'flex justify-center pt-4';
+  restartEl.innerHTML = `<button onclick="restart()" class="text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors underline underline-offset-4">Analyze another idea</button>`;
+  fullHtml.appendChild(restartEl);
+
+  output.appendChild(fullHtml);
+  AOS.refresh();
+  fullHtml.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/**
+ * Renders the frosted blur overlay + CTA card that sits over blurred sections.
+ * @param {string} sectionLabel - human-readable name of the blurred section
+ */
+function blurOverlay(sectionLabel) {
+  return `
+    <div class="absolute inset-0 flex items-center justify-center rounded-2xl overflow-hidden" style="backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(10,10,10,0.55);">
+      <div class="text-center px-6 py-5 max-w-xs">
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-white/10 text-[11px] font-mono text-zinc-500 mb-3">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="1" y="4.5" width="8" height="5" rx="1" stroke="#c8ff00" stroke-width="1"/><path d="M3 4.5V3a2 2 0 014 0v1.5" stroke="#c8ff00" stroke-width="1" stroke-linecap="round"/></svg>
+          ${sectionLabel}
+        </div>
+        <p class="text-sm font-medium text-zinc-100 mb-1 leading-snug">Create a free account to unlock this</p>
+        <p class="text-xs text-zinc-500 mb-4 leading-relaxed">Save your idea, access all sections, and keep refining with AI — completely free.</p>
+        <a href="${APP_URL}/register?idea=${encodeURIComponent(state.idea)}"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all"
+          style="background:#c8ff00;color:#0a0a0a">
+          Get full access — free
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6M5 2l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <p class="text-[11px] text-zinc-600 mt-2 font-mono">No credit card. No trial.</p>
+      </div>
+    </div>`;
+}
+
+// ── blur CTA CSS injected at runtime ─────────────────────────────────────────
+(function injectBlurStyles() {
+  const style = document.createElement('style');
+  style.textContent = `
+    .blur-preview {
+      filter: blur(3px);
+      user-select: none;
+      pointer-events: none;
+    }
+  `;
+  document.head.appendChild(style);
+})();
+
+// ── restart ──────────────────────────────────────────────────────────────────
+function restart() {
+  state.idea = ''; state.quickRead = null; state.questions = [];
+  document.getElementById('idea-input').value = '';
+  document.getElementById('char-count').textContent = '0 / 1000';
+  document.getElementById('output').classList.add('hidden');
+  document.getElementById('output').innerHTML = '';
+  hideError();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+========================================
+FILE: ./authStore.js
+========================================
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+
+export const useAuthStore = create(
+  persist(
+    (set) => ({
+      token: null,
+      user: null,
+
+      setAuth: (token, user) => set({ token, user }),
+
+      logout: () => {
+        set({ token: null, user: null })
+      },
+    }),
+    {
+      name: 'zeroto-auth',
+    }
+  )
+)
+
+========================================
+FILE: ./client.js
+========================================
+import axios from 'axios'
+import { useAuthStore } from '../stores/authStore'
+
+const client = axios.create({
+  baseURL: '/api',
+  headers: { 'Content-Type': 'application/json' },
+})
+
+// Attach JWT token to every request
+client.interceptors.request.use((config) => {
+  const token = useAuthStore.getState().token
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+
+// On 401, log out
+client.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response?.status === 401) {
+      useAuthStore.getState().logout()
+    }
+    return Promise.reject(err)
+  }
+)
+
+// Auth
+export const register = (email, password) =>
+  client.post('/auth/register', { email, password })
+
+export const login = (email, password) =>
+  client.post('/auth/login', { email, password })
+
+export const getMe = () =>
+  client.get('/auth/me')
+
+// Analyze (unauthenticated)
+export const quickRead = (idea) =>
+  client.post('/quick-read', { idea })
+
+export const fullAnalysis = (payload) =>
+  client.post('/full-analysis', payload)
+
+// Ideas (authenticated)
+export const listIdeas = () =>
+  client.get('/ideas')
+
+export const getIdea = (id) =>
+  client.get(`/ideas/${id}`)
+
+export const saveIdea = (original_prompt, analysis) =>
+  client.post('/ideas', { original_prompt, analysis })
+
+export const deleteIdea = (id) =>
+  client.delete(`/ideas/${id}`)
+
+// Chat
+export const sendChat = (ideaId, message) =>
+  client.post(`/ideas/${ideaId}/chat/`, { message })
+

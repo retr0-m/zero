@@ -1,0 +1,26 @@
+frontend/
+├── index.html
+├── results.html
+├── css/
+├── main.css
+└── results.css
+└── js/
+├── canvas.js
+├── main.js
+└── results.js
+index.html
+Hero + features
+Input + skeleton
+→ saves to localStorage
+redirect
+results.html
+Viability score + ring
+Investment breakdown
+Revenue bar chart
+Roadmap timeline
+Business plan steps
+Who you need
+Risk assessment
+Marketing channels
+Agency CTA
+reads from localStorage
