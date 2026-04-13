@@ -25,7 +25,7 @@ DO NOT default to 7. Score based on the actual idea.
 IMPORTANT: If the input is not a business idea (vague, single word, gibberish), set viability_score to 1, title to "Not a Business Idea", explain in summary, and return empty questions array.
 
 QUESTION RULES:
-- Generate 2-4 questions SPECIFIC to this idea
+- Generate 2-10 questions SPECIFIC to this idea
 - Mix types: "choice" (2-4 options) for bounded answers, "text" for open answers
 - question ids must be short slugs (e.g. "target_market", "existing_network")
 - DO NOT ask about budget or time — those are asked separately
@@ -58,13 +58,13 @@ HARD RULES (never violate these)
 - "EUR 5-20k" = hard ceiling of EUR 20000
 - "EUR 20k+" = uncapped
 - investment.max MUST NOT exceed the user's budget ceiling.
-- If the idea structurally requires more capital than available: drop viability_score by 2, add an explicit warning in summary, and redesign the plan around no-code/manual/scrappy alternatives (Bubble, Glide, Notion, manual ops, waitlist MVP). If it truly cannot be done at that budget, say so plainly.
+- If the idea structurally requires more capital than available: add an explicit warning in summary, and redesign the plan around no-code/manual/scrappy alternatives (Bubble, Glide, Notion, manual ops, waitlist MVP). If it truly cannot be done at that budget, say so plainly.
 - Typical investment ranges by category:
-    SaaS/software: EUR 2k–20k
-    Physical product: EUR 20k–200k+
-    Marketplace: EUR 15k–80k
-    Food/logistics: EUR 30k–150k
-    Deep tech: EUR 500k+
+    SaaS/software: EUR 2k–10k
+    Physical product: EUR 10k–20k+
+    Marketplace: EUR 15k–20k
+    Food/logistics: EUR 30k–50k
+    Deep tech: EUR 100k+
 
 [TIME]
 - If user has < 1h/day available: multiply ALL milestone durations by 2.5x minimum.
@@ -92,10 +92,10 @@ FIELD-SPECIFIC RULES
 - If budget or time is a red flag, the first sentence must say so explicitly.
 
 [viability_score]
-- Integer 1–10. See scoring rules above.
+- Integer 1-10. See scoring rules above.
 
 [business_plan]
-- Minimum 5 steps, maximum 10. Use as many as the complexity of this idea requires.
+- Minimum 5 steps, maximum 20. Use as many as the complexity of this idea requires.
 - Each step must reference the actual product, actual channel, and actual constraints of this user.
 - No generic steps like "build MVP" or "find customers". Be specific: "Build a Bubble.io prototype of the booking flow targeting freelance architects in Milan via cold LinkedIn outreach."
 
@@ -112,7 +112,7 @@ FIELD-SPECIFIC RULES
 
 [revenue]
 - month_3, month_6, month_12 are integers in EUR.
-- All three must be independently justified by price × realistic volume.
+- All three must be independently justified by price x realistic volume.
 - If month_3 is 0, month_6 must still be honest — do not compensate with an inflated number.
 
 [timeline]

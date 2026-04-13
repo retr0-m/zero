@@ -68,7 +68,7 @@ function IdeaInput({ onSubmit, loading, defaultValue }) {
 }
 
 // ─── Step 1: Quick read result + questions ─────────────────────────────────
-function QuickReadStep({ quickResult, idea, onSubmit, loading }) {
+function QuickReadStep({ quickResult, idea, onSubmit, onRestart, loading }) {
   const [hours, setHours] = useState('')
   const [budget, setBudget] = useState('')
   const [answers, setAnswers] = useState({})
@@ -81,6 +81,46 @@ function QuickReadStep({ quickResult, idea, onSubmit, loading }) {
 
   function handleSubmit() {
     onSubmit({ hours_per_day: hours, budget, answers })
+  }
+
+  // Check if viability score is too low (rejected idea)
+  if (quickResult.viability_score <= 2) {
+    return (
+      <div className="max-w-xl mx-auto w-full">
+        {/* Rejection card */}
+        <div className="rounded-xl border border-red-900/40 bg-red-950/20 p-6">
+          <div className="flex items-start justify-between gap-4 flex-wrap mb-4">
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <circle cx="7" cy="7" r="6" stroke="#ff4d4d" strokeWidth="1.5" />
+                  <path d="M7 4v3M7 9.5v.5" stroke="#ff4d4d" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+                <span className="text-xs font-mono text-red-400 uppercase tracking-widest">Not viable</span>
+              </div>
+              <h3 className="font-serif text-3xl font-normal tracking-tight mb-2 text-zinc-200">{quickResult.title}</h3>
+              <p className="text-sm text-red-300/80 max-w-lg leading-relaxed">{quickResult.summary}</p>
+            </div>
+            <div className="text-right flex-shrink-0">
+              <div className="text-xs font-mono text-zinc-500 mb-2 uppercase tracking-widest">Viability</div>
+              <div className="font-mono text-4xl font-medium text-red-400">{quickResult.viability_score}/10</div>
+              <div className="w-24 h-px bg-white/10 mt-2 rounded-full overflow-hidden">
+                <div className="h-full" style={{ width: `${quickResult.viability_score * 10}%`, background: '#ff4d4d' }} />
+              </div>
+            </div>
+          </div>
+          <div className="mt-5 pt-5 border-t border-red-900/30 flex items-center justify-between gap-4 flex-wrap">
+            <p className="text-xs text-zinc-500 font-mono">Refine the idea and try again, or start fresh.</p>
+            <button
+              onClick={onRestart}
+              className="px-5 py-2 rounded-full border border-white/10 text-xs text-zinc-300 hover:border-white/30 hover:text-white transition-all"
+            >
+              Try another idea
+            </button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -112,11 +152,10 @@ function QuickReadStep({ quickResult, idea, onSubmit, loading }) {
               <button
                 key={o}
                 onClick={() => setHours(o)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-mono border transition-all ${
-                  hours === o
-                    ? 'border-[#c8ff00]/50 bg-[#c8ff00]/10 text-[#c8ff00]'
-                    : 'border-white/8 text-zinc-500 hover:text-zinc-300 hover:border-white/15'
-                }`}
+                className={`px-3 py-1.5 rounded-lg text-xs font-mono border transition-all ${hours === o
+                  ? 'border-[#c8ff00]/50 bg-[#c8ff00]/10 text-[#c8ff00]'
+                  : 'border-white/8 text-zinc-500 hover:text-zinc-300 hover:border-white/15'
+                  }`}
               >
                 {o}
               </button>
@@ -133,11 +172,10 @@ function QuickReadStep({ quickResult, idea, onSubmit, loading }) {
               <button
                 key={o}
                 onClick={() => setBudget(o)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-mono border transition-all ${
-                  budget === o
-                    ? 'border-[#c8ff00]/50 bg-[#c8ff00]/10 text-[#c8ff00]'
-                    : 'border-white/8 text-zinc-500 hover:text-zinc-300 hover:border-white/15'
-                }`}
+                className={`px-3 py-1.5 rounded-lg text-xs font-mono border transition-all ${budget === o
+                  ? 'border-[#c8ff00]/50 bg-[#c8ff00]/10 text-[#c8ff00]'
+                  : 'border-white/8 text-zinc-500 hover:text-zinc-300 hover:border-white/15'
+                  }`}
               >
                 {o}
               </button>
@@ -155,11 +193,10 @@ function QuickReadStep({ quickResult, idea, onSubmit, loading }) {
                   <button
                     key={c}
                     onClick={() => setAnswers((a) => ({ ...a, [q.id]: c }))}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-mono border transition-all ${
-                      answers[q.id] === c
-                        ? 'border-[#c8ff00]/50 bg-[#c8ff00]/10 text-[#c8ff00]'
-                        : 'border-white/8 text-zinc-500 hover:text-zinc-300 hover:border-white/15'
-                    }`}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-mono border transition-all ${answers[q.id] === c
+                      ? 'border-[#c8ff00]/50 bg-[#c8ff00]/10 text-[#c8ff00]'
+                      : 'border-white/8 text-zinc-500 hover:text-zinc-300 hover:border-white/15'
+                      }`}
                   >
                     {c}
                   </button>
@@ -352,15 +389,20 @@ export default function NewIdea({ onSaved }) {
   }
 
   async function handleQuickRead(text) {
+    console.log('📝 handleQuickRead() called with text:', text.substring(0, 50) + '...')
     setError('')
     setLoading(true)
     setIdea(text)
     try {
+      console.log('🔄 Calling quickRead API...')
       const { data } = await quickRead(text)
+      console.log('✅ Quick read response received:', data)
+      console.log('📊 Viability score:', data.viability_score)
       setQuickResult(data)
       setStep(1)
       scrollTop()
     } catch (err) {
+      console.error('❌ Error in handleQuickRead():', err)
       setError(err.response?.data?.detail || 'Failed to analyze idea. Is the backend running?')
     } finally {
       setLoading(false)
@@ -393,6 +435,16 @@ export default function NewIdea({ onSaved }) {
     }
   }
 
+  function handleRestart() {
+    console.log('🔄 Restarting idea analysis')
+    setStep(0)
+    setIdea('')
+    setQuickResult(null)
+    setFullResult(null)
+    setError('')
+    scrollTop()
+  }
+
   // step labels for breadcrumb
   const steps = ['Describe', 'Refine', 'Review']
 
@@ -405,13 +457,12 @@ export default function NewIdea({ onSaved }) {
             <div key={s} className="flex items-center gap-2">
               <div className="flex items-center gap-1.5">
                 <div
-                  className={`w-4 h-4 rounded-full border flex items-center justify-center text-[9px] font-mono transition-all ${
-                    i < step
-                      ? 'bg-[#c8ff00] border-[#c8ff00] text-black'
-                      : i === step
+                  className={`w-4 h-4 rounded-full border flex items-center justify-center text-[9px] font-mono transition-all ${i < step
+                    ? 'bg-[#c8ff00] border-[#c8ff00] text-black'
+                    : i === step
                       ? 'border-[#c8ff00]/60 text-[#c8ff00]'
                       : 'border-white/10 text-zinc-600'
-                  }`}
+                    }`}
                 >
                   {i < step ? '✓' : i + 1}
                 </div>
@@ -436,6 +487,7 @@ export default function NewIdea({ onSaved }) {
             quickResult={quickResult}
             idea={idea}
             onSubmit={handleFullAnalysis}
+            onRestart={handleRestart}
             loading={loading}
           />
         )}

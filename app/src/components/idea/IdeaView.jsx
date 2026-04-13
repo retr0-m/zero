@@ -104,7 +104,14 @@ export default function IdeaView({ ideaId, onDeleted }) {
           {activeTab === 'money' && <MoneyTab tabs={idea.tabs} idea={idea} />}
           {activeTab === 'plan' && <PlanTab tabs={idea.tabs} idea={idea} />}
           {activeTab === 'problems' && <ProblemsTab tabs={idea.tabs} idea={idea} />}
-          {activeTab === 'chat' && <ChatTab idea={idea} />}
+          {activeTab === 'chat' && (
+            <ChatTab
+              idea={idea}
+              onMessagesChange={(messages) =>
+                setIdea((prev) => ({ ...prev, chat_messages: messages }))
+              }
+            />
+          )}
           {activeTab === 'people' && <PeopleTab tabs={idea.tabs} idea={idea} />}
         </div>
       </div>

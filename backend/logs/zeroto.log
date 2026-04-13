@@ -197,3 +197,336 @@
 2026-03-26 22:24:37 | INFO     | services.ai | Chat response for idea=Eco-Friendly Passive Odor-Eliminating Wardrobe Ventilation System
 2026-03-26 22:24:39 | INFO     | routers.chat | Chat message saved for idea=54299bf9-d2d8-4542-837a-b77ea15e7478
 2026-03-26 22:30:53 | INFO     | main | Shutting down
+2026-03-26 22:42:50 | INFO     | main | Starting zeroto platform API
+2026-03-26 22:42:50 | INFO     | main | Database tables ready
+2026-03-26 22:42:59 | INFO     | routers.ideas | Fetching idea 54299bf9-d2d8-4542-837a-b77ea15e7478 for user 0696b642-cb04-4112-ae8e-3541abacd66b
+2026-03-26 22:42:59 | INFO     | routers.ideas | Listing ideas for user: retr0@mail.com
+2026-03-26 22:43:00 | INFO     | routers.ideas | Fetching idea 54299bf9-d2d8-4542-837a-b77ea15e7478 for user 0696b642-cb04-4112-ae8e-3541abacd66b
+2026-03-26 22:43:00 | INFO     | routers.ideas | Listing ideas for user: retr0@mail.com
+2026-03-26 22:43:01 | INFO     | routers.ideas | Listing ideas for user: retr0@mail.com
+2026-03-26 22:43:01 | INFO     | routers.ideas | Fetching idea 54299bf9-d2d8-4542-837a-b77ea15e7478 for user 0696b642-cb04-4112-ae8e-3541abacd66b
+2026-03-26 22:43:02 | INFO     | routers.ideas | Fetching idea 54299bf9-d2d8-4542-837a-b77ea15e7478 for user 0696b642-cb04-4112-ae8e-3541abacd66b
+2026-03-26 22:43:02 | INFO     | routers.ideas | Listing ideas for user: retr0@mail.com
+2026-03-26 22:43:05 | INFO     | routers.ideas | Listing ideas for user: retr0@mail.com
+2026-03-26 22:43:07 | INFO     | routers.ideas | Listing ideas for user: retr0@mail.com
+2026-03-26 22:48:35 | INFO     | routers.ideas | Listing ideas for user: retr0@mail.com
+2026-03-26 22:58:45 | INFO     | routers.ideas | Listing ideas for user: retr0@mail.com
+2026-03-26 22:58:46 | INFO     | routers.ideas | Listing ideas for user: retr0@mail.com
+2026-03-26 22:58:50 | INFO     | routers.ideas | Listing ideas for user: retr0@mail.com
+2026-03-27 19:43:50 | INFO     | main | Shutting down
+2026-03-27 19:44:04 | INFO     | main | Starting zeroto platform API
+2026-03-27 19:44:04 | INFO     | main | Database tables ready
+2026-03-27 19:45:23 | INFO     | routers.ideas | Listing ideas for user: retr0@mail.com
+2026-03-27 19:46:26 | INFO     | routers.auth | New user registered: sheggy.bismillah@hamdulillah.com
+2026-03-27 19:46:26 | INFO     | routers.ideas | Listing ideas for user: sheggy.bismillah@hamdulillah.com
+2026-03-27 19:47:14 | INFO     | routers.analyze | POST /api/quick-read
+2026-03-27 19:47:14 | INFO     | services.ai | Quick read (length=88)
+2026-03-27 19:47:18 | INFO     | services.ai | Quick read done: title='Not a Business Idea' viability=1
+2026-03-27 19:47:30 | INFO     | routers.analyze | POST /api/full-analysis
+2026-03-27 19:47:30 | INFO     | services.ai | Full analysis (length=88)
+2026-03-27 19:47:31 | WARNING  | routers.analyze | Parse error: Expecting value: line 1 column 1 (char 0)
+2026-03-27 19:47:42 | INFO     | routers.analyze | POST /api/full-analysis
+2026-03-27 19:47:42 | INFO     | services.ai | Full analysis (length=88)
+2026-03-27 19:47:48 | INFO     | services.ai | Full analysis done: title='Illegal Online Drug Marketplace' viability=1
+2026-03-27 19:48:16 | INFO     | routers.ideas | Idea created: id=da92b1c9-09ec-49f0-aa17-828c7ea5daaf user=542bc499-47cd-4ceb-b572-b7ff472f4410
+2026-03-27 19:48:16 | INFO     | routers.ideas | Built idea detail for idea_id=da92b1c9-09ec-49f0-aa17-828c7ea5daaf
+2026-03-27 19:48:16 | INFO     | routers.ideas | Committed DB session after building idea detail for idea_id=da92b1c9-09ec-49f0-aa17-828c7ea5daaf
+2026-03-27 19:48:16 | INFO     | routers.ideas | Fetching idea da92b1c9-09ec-49f0-aa17-828c7ea5daaf for user 542bc499-47cd-4ceb-b572-b7ff472f4410
+2026-03-27 19:49:12 | INFO     | services.ai | Chat response for idea=Illegal Online Drug Marketplace
+2026-03-27 19:49:14 | INFO     | routers.chat | Chat message saved for idea=da92b1c9-09ec-49f0-aa17-828c7ea5daaf
+2026-03-27 19:49:32 | INFO     | services.ai | Chat response for idea=Illegal Online Drug Marketplace
+2026-03-27 19:49:34 | INFO     | routers.chat | Chat message saved for idea=da92b1c9-09ec-49f0-aa17-828c7ea5daaf
+2026-03-27 19:51:33 | INFO     | routers.analyze | POST /api/quick-read
+2026-03-27 19:51:33 | INFO     | services.ai | Quick read (length=149)
+2026-03-27 19:51:36 | INFO     | services.ai | Quick read done: title='Import-Export Matching Platform' viability=6
+2026-03-27 19:53:33 | INFO     | routers.analyze | POST /api/full-analysis
+2026-03-27 19:53:33 | INFO     | services.ai | Full analysis (length=149)
+2026-03-27 19:53:46 | INFO     | services.ai | Full analysis done: title='Import-Export Matching Platform' viability=4
+2026-03-27 19:54:08 | INFO     | routers.ideas | Idea created: id=2bfd7285-fd8a-45a1-997a-f617adc5d349 user=542bc499-47cd-4ceb-b572-b7ff472f4410
+2026-03-27 19:54:08 | INFO     | routers.ideas | Built idea detail for idea_id=2bfd7285-fd8a-45a1-997a-f617adc5d349
+2026-03-27 19:54:08 | INFO     | routers.ideas | Committed DB session after building idea detail for idea_id=2bfd7285-fd8a-45a1-997a-f617adc5d349
+2026-03-27 19:54:08 | INFO     | routers.ideas | Fetching idea 2bfd7285-fd8a-45a1-997a-f617adc5d349 for user 542bc499-47cd-4ceb-b572-b7ff472f4410
+2026-03-27 19:54:45 | INFO     | services.ai | Chat response for idea=Import-Export Matching Platform
+2026-03-27 19:54:48 | INFO     | routers.chat | Chat message saved for idea=2bfd7285-fd8a-45a1-997a-f617adc5d349
+2026-03-27 19:55:11 | INFO     | services.ai | Chat response for idea=Import-Export Matching Platform
+2026-03-27 19:55:13 | INFO     | routers.chat | Chat message saved for idea=2bfd7285-fd8a-45a1-997a-f617adc5d349
+2026-03-27 19:55:24 | INFO     | services.ai | Chat response for idea=Import-Export Matching Platform
+2026-03-27 19:55:26 | INFO     | routers.chat | Chat message saved for idea=2bfd7285-fd8a-45a1-997a-f617adc5d349
+2026-03-27 19:55:40 | INFO     | services.ai | Chat response for idea=Import-Export Matching Platform
+2026-03-27 19:55:43 | INFO     | routers.chat | Chat message saved for idea=2bfd7285-fd8a-45a1-997a-f617adc5d349
+2026-03-27 19:55:57 | INFO     | services.ai | Chat response for idea=Import-Export Matching Platform
+2026-03-27 19:55:58 | INFO     | routers.chat | Chat message saved for idea=2bfd7285-fd8a-45a1-997a-f617adc5d349
+2026-03-27 19:56:12 | INFO     | services.ai | Chat response for idea=Import-Export Matching Platform
+2026-03-27 19:56:13 | INFO     | routers.chat | Chat message saved for idea=2bfd7285-fd8a-45a1-997a-f617adc5d349
+2026-03-27 19:56:56 | INFO     | routers.ideas | Fetching idea da92b1c9-09ec-49f0-aa17-828c7ea5daaf for user 542bc499-47cd-4ceb-b572-b7ff472f4410
+2026-03-27 19:56:57 | INFO     | routers.ideas | Fetching idea 2bfd7285-fd8a-45a1-997a-f617adc5d349 for user 542bc499-47cd-4ceb-b572-b7ff472f4410
+2026-03-27 19:57:00 | INFO     | routers.ideas | Fetching idea da92b1c9-09ec-49f0-aa17-828c7ea5daaf for user 542bc499-47cd-4ceb-b572-b7ff472f4410
+2026-03-27 19:57:02 | INFO     | routers.ideas | Fetching idea 2bfd7285-fd8a-45a1-997a-f617adc5d349 for user 542bc499-47cd-4ceb-b572-b7ff472f4410
+2026-04-10 10:24:56 | INFO     | main | Starting zeroto platform API
+2026-04-10 10:24:56 | INFO     | main | Database tables ready
+2026-04-10 10:25:53 | INFO     | main | Shutting down
+2026-04-10 10:25:58 | INFO     | main | Starting zeroto platform API
+2026-04-10 10:25:58 | INFO     | main | Database tables ready
+2026-04-10 10:28:03 | INFO     | main | Shutting down
+2026-04-10 10:28:05 | INFO     | main | Starting zeroto platform API
+2026-04-10 10:28:05 | INFO     | main | Database tables ready
+2026-04-10 10:30:42 | INFO     | routers.auth | New user registered: cc@cc.cc
+2026-04-10 10:30:42 | INFO     | routers.ideas | Listing ideas for user: cc@cc.cc
+2026-04-10 10:32:34 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-10 10:32:34 | INFO     | services.ai | Quick read (length=364)
+2026-04-10 10:32:37 | INFO     | services.ai | Quick read done: title='All-Inclusive Digital Agency' viability=5
+2026-04-10 10:33:37 | INFO     | routers.analyze | POST /api/full-analysis
+2026-04-10 10:33:37 | INFO     | services.ai | Full analysis (length=364)
+2026-04-10 10:33:46 | INFO     | services.ai | Full analysis done: title='Full-Service Digital Agency Transformation' viability=4
+2026-04-10 10:36:28 | INFO     | routers.ideas | Idea created: id=822423c5-285e-4912-8529-e3b1cd399a77 user=ec08025e-812f-4c16-9bec-7375af04c85a
+2026-04-10 10:36:28 | INFO     | routers.ideas | Built idea detail for idea_id=822423c5-285e-4912-8529-e3b1cd399a77
+2026-04-10 10:36:28 | INFO     | routers.ideas | Committed DB session after building idea detail for idea_id=822423c5-285e-4912-8529-e3b1cd399a77
+2026-04-10 10:36:28 | INFO     | routers.ideas | Fetching idea 822423c5-285e-4912-8529-e3b1cd399a77 for user ec08025e-812f-4c16-9bec-7375af04c85a
+2026-04-10 10:39:10 | INFO     | services.ai | Chat response for idea=Full-Service Digital Agency Transformation
+2026-04-10 10:39:13 | INFO     | routers.chat | Chat message saved for idea=822423c5-285e-4912-8529-e3b1cd399a77
+2026-04-10 10:39:35 | INFO     | services.ai | Chat response for idea=Full-Service Digital Agency Transformation
+2026-04-10 10:39:36 | INFO     | routers.chat | Chat message saved for idea=822423c5-285e-4912-8529-e3b1cd399a77
+2026-04-12 14:02:07 | INFO     | main | Starting zeroto platform API
+2026-04-12 14:02:07 | INFO     | main | Database tables ready
+2026-04-12 14:02:12 | INFO     | routers.ideas | Listing ideas for user: cc@cc.cc
+2026-04-12 14:03:02 | INFO     | routers.auth | New user registered: christian.marche965@gmail.com
+2026-04-12 14:03:02 | INFO     | routers.ideas | Listing ideas for user: christian.marche965@gmail.com
+2026-04-12 14:03:26 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-12 14:03:26 | INFO     | services.ai | Quick read (length=58)
+2026-04-12 14:03:30 | INFO     | services.ai | Quick read done: title='Closet Air Filter' viability=7
+2026-04-12 14:05:14 | INFO     | routers.analyze | POST /api/full-analysis
+2026-04-12 14:05:14 | INFO     | services.ai | Full analysis (length=58)
+2026-04-12 14:05:23 | INFO     | services.ai | Full analysis done: title='Closet Air Purification Device for Hotels' viability=4
+2026-04-12 14:05:32 | INFO     | routers.ideas | Idea created: id=65d73d72-18ce-4efa-909c-ab7c049d36d0 user=abf44ad9-7fb8-4e17-9bda-e4199a8f0d14
+2026-04-12 14:05:32 | INFO     | routers.ideas | Built idea detail for idea_id=65d73d72-18ce-4efa-909c-ab7c049d36d0
+2026-04-12 14:05:32 | INFO     | routers.ideas | Committed DB session after building idea detail for idea_id=65d73d72-18ce-4efa-909c-ab7c049d36d0
+2026-04-12 14:05:32 | INFO     | routers.ideas | Fetching idea 65d73d72-18ce-4efa-909c-ab7c049d36d0 for user abf44ad9-7fb8-4e17-9bda-e4199a8f0d14
+2026-04-12 14:09:50 | INFO     | services.ai | Chat response for idea=Closet Air Purification Device for Hotels
+2026-04-12 14:09:52 | INFO     | routers.chat | Chat message saved for idea=65d73d72-18ce-4efa-909c-ab7c049d36d0
+2026-04-12 14:10:24 | INFO     | services.ai | Chat response for idea=Closet Air Purification Device for Hotels
+2026-04-12 14:10:27 | INFO     | routers.chat | Chat message saved for idea=65d73d72-18ce-4efa-909c-ab7c049d36d0
+2026-04-13 10:27:58 | INFO     | main | Starting zeroto platform API
+2026-04-13 10:27:58 | INFO     | main | Database tables ready
+2026-04-13 10:28:00 | INFO     | routers.ideas | Listing ideas for user: christian.marche965@gmail.com
+2026-04-13 10:28:02 | INFO     | routers.ideas | Fetching idea 65d73d72-18ce-4efa-909c-ab7c049d36d0 for user abf44ad9-7fb8-4e17-9bda-e4199a8f0d14
+2026-04-13 10:30:20 | INFO     | routers.ideas | Listing ideas for user: christian.marche965@gmail.com
+2026-04-13 10:44:10 | INFO     | routers.ideas | Fetching idea 65d73d72-18ce-4efa-909c-ab7c049d36d0 for user abf44ad9-7fb8-4e17-9bda-e4199a8f0d14
+2026-04-13 12:03:49 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 12:03:49 | INFO     | services.ai | Quick read (length=257)
+2026-04-13 12:03:53 | INFO     | services.ai | Quick read done: title='Skill Kit Subscription Service' viability=7
+2026-04-13 15:26:11 | INFO     | main | Starting zeroto platform API
+2026-04-13 15:26:11 | INFO     | main | Database tables ready
+2026-04-13 15:26:19 | INFO     | routers.ideas | Listing ideas for user: christian.marche965@gmail.com
+2026-04-13 15:26:31 | INFO     | routers.auth | New user registered: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:26:31 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:27:17 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 15:27:17 | INFO     | services.ai | Quick read (length=257)
+2026-04-13 15:27:27 | ERROR    | routers.analyze | Unexpected error in /api/quick-read
+Traceback (most recent call last):
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpx/_transports/default.py", line 72, in map_httpcore_exceptions
+    yield
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpx/_transports/default.py", line 377, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpcore/_async/connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpcore/_async/connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpcore/_async/connection.py", line 101, in handle_async_request
+    raise exc
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpcore/_async/connection.py", line 78, in handle_async_request
+    stream = await self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpcore/_async/connection.py", line 124, in _connect
+    stream = await self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpcore/_backends/auto.py", line 31, in connect_tcp
+    return await self._backend.connect_tcp(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpcore/_backends/anyio.py", line 113, in connect_tcp
+    with map_exceptions(exc_map):
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: [Errno 8] nodename nor servname provided, or not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/kali/Desktop/business/zeroto/backend/routers/analyze.py", line 15, in route_quick_read
+    return await quick_read(request.idea)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kali/Desktop/business/zeroto/backend/services/ai.py", line 216, in quick_read
+    raw = await _call_openai(QUICK_READ_PROMPT, f"Business idea: {idea}")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kali/Desktop/business/zeroto/backend/services/ai.py", line 207, in _call_openai
+    response = await client.post(OPENAI_URL, json=payload, headers=headers)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpx/_client.py", line 1905, in post
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpx/_client.py", line 1585, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpx/_client.py", line 1674, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpx/_client.py", line 1702, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpx/_client.py", line 1739, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpx/_client.py", line 1776, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpx/_transports/default.py", line 376, in handle_async_request
+    with map_httpcore_exceptions():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/Users/kali/Desktop/business/zeroto/backend/vvv/lib/python3.12/site-packages/httpx/_transports/default.py", line 89, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: [Errno 8] nodename nor servname provided, or not known
+2026-04-13 15:27:36 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 15:27:36 | INFO     | services.ai | Quick read (length=257)
+2026-04-13 15:27:47 | INFO     | services.ai | Quick read done: title='Skill Box Subscription' viability=7
+2026-04-13 15:28:14 | INFO     | routers.analyze | POST /api/full-analysis
+2026-04-13 15:28:14 | INFO     | services.ai | Full analysis (length=257)
+2026-04-13 15:28:30 | INFO     | services.ai | Full analysis done: title='Monthly Life Skills Subscription Boxes' viability=5
+2026-04-13 15:28:36 | INFO     | routers.ideas | Idea created: id=98b65bb8-2083-4513-8a85-efc6d404ae86 user=d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:28:36 | INFO     | routers.ideas | Built idea detail for idea_id=98b65bb8-2083-4513-8a85-efc6d404ae86
+2026-04-13 15:28:36 | INFO     | routers.ideas | Committed DB session after building idea detail for idea_id=98b65bb8-2083-4513-8a85-efc6d404ae86
+2026-04-13 15:28:36 | INFO     | routers.ideas | Fetching idea 98b65bb8-2083-4513-8a85-efc6d404ae86 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:28:46 | INFO     | services.ai | Chat response for idea=Monthly Life Skills Subscription Boxes
+2026-04-13 15:28:49 | INFO     | routers.chat | Chat message saved for idea=98b65bb8-2083-4513-8a85-efc6d404ae86
+2026-04-13 15:29:21 | INFO     | routers.ideas | Fetching idea 98b65bb8-2083-4513-8a85-efc6d404ae86 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:29:21 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:29:51 | INFO     | routers.ideas | Fetching idea 98b65bb8-2083-4513-8a85-efc6d404ae86 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:45:48 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 15:45:48 | INFO     | services.ai | Quick read (length=2000)
+2026-04-13 15:45:53 | INFO     | services.ai | Quick read done: title='LaunchOS Startup Platform' viability=6
+2026-04-13 15:46:59 | INFO     | routers.analyze | POST /api/full-analysis
+2026-04-13 15:46:59 | INFO     | services.ai | Full analysis (length=2000)
+2026-04-13 15:47:07 | INFO     | services.ai | Full analysis done: title='Integrated Startup Launch Platform' viability=4
+2026-04-13 15:47:23 | INFO     | routers.ideas | Idea created: id=b9644027-0245-4761-80fa-d00542658755 user=d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:47:23 | INFO     | routers.ideas | Built idea detail for idea_id=b9644027-0245-4761-80fa-d00542658755
+2026-04-13 15:47:23 | INFO     | routers.ideas | Committed DB session after building idea detail for idea_id=b9644027-0245-4761-80fa-d00542658755
+2026-04-13 15:47:23 | INFO     | routers.ideas | Fetching idea b9644027-0245-4761-80fa-d00542658755 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:52:06 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 15:52:06 | INFO     | services.ai | Quick read (length=30)
+2026-04-13 15:52:07 | INFO     | services.ai | Quick read done: title='Not a Business Idea' viability=1
+2026-04-13 15:52:11 | INFO     | routers.analyze | POST /api/full-analysis
+2026-04-13 15:52:11 | INFO     | services.ai | Full analysis (length=30)
+2026-04-13 15:52:16 | INFO     | services.ai | Full analysis done: title='Nonsensical Business Idea' viability=1
+2026-04-13 15:52:41 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:52:46 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 15:52:46 | INFO     | services.ai | Quick read (length=31)
+2026-04-13 15:52:47 | INFO     | services.ai | Quick read done: title='Not a Business Idea' viability=1
+2026-04-13 15:52:49 | INFO     | routers.analyze | POST /api/full-analysis
+2026-04-13 15:52:49 | INFO     | services.ai | Full analysis (length=31)
+2026-04-13 15:52:53 | INFO     | services.ai | Full analysis done: title='Invalid Business Idea' viability=1
+2026-04-13 15:53:26 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:53:28 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:53:30 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 15:53:30 | INFO     | services.ai | Quick read (length=32)
+2026-04-13 15:53:32 | INFO     | services.ai | Quick read done: title='Not a Business Idea' viability=1
+2026-04-13 15:53:34 | INFO     | routers.analyze | POST /api/full-analysis
+2026-04-13 15:53:34 | INFO     | services.ai | Full analysis (length=32)
+2026-04-13 15:53:38 | INFO     | services.ai | Full analysis done: title='Invalid Business Idea' viability=1
+2026-04-13 15:53:40 | INFO     | routers.ideas | Idea created: id=a4a518fc-ccb1-409e-a76b-ba573262dce4 user=d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:53:40 | INFO     | routers.ideas | Built idea detail for idea_id=a4a518fc-ccb1-409e-a76b-ba573262dce4
+2026-04-13 15:53:40 | INFO     | routers.ideas | Committed DB session after building idea detail for idea_id=a4a518fc-ccb1-409e-a76b-ba573262dce4
+2026-04-13 15:53:40 | INFO     | routers.ideas | Fetching idea a4a518fc-ccb1-409e-a76b-ba573262dce4 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:54:10 | INFO     | routers.ideas | Fetching idea a4a518fc-ccb1-409e-a76b-ba573262dce4 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:54:10 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:54:11 | INFO     | routers.ideas | Fetching idea a4a518fc-ccb1-409e-a76b-ba573262dce4 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:54:11 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:54:12 | INFO     | routers.ideas | Fetching idea a4a518fc-ccb1-409e-a76b-ba573262dce4 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:54:12 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:54:12 | INFO     | routers.ideas | Fetching idea a4a518fc-ccb1-409e-a76b-ba573262dce4 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:54:12 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:54:12 | INFO     | routers.ideas | Fetching idea a4a518fc-ccb1-409e-a76b-ba573262dce4 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:54:12 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:54:16 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 15:54:16 | INFO     | services.ai | Quick read (length=29)
+2026-04-13 15:54:17 | INFO     | services.ai | Quick read done: title='Not a Business Idea' viability=1
+2026-04-13 15:54:20 | INFO     | routers.analyze | POST /api/full-analysis
+2026-04-13 15:54:20 | INFO     | services.ai | Full analysis (length=29)
+2026-04-13 15:54:23 | INFO     | services.ai | Full analysis done: title='Invalid Business Idea' viability=1
+2026-04-13 15:54:24 | INFO     | routers.ideas | Idea created: id=f5e98f12-d164-4446-968b-bd65ae441d48 user=d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:54:24 | INFO     | routers.ideas | Built idea detail for idea_id=f5e98f12-d164-4446-968b-bd65ae441d48
+2026-04-13 15:54:24 | INFO     | routers.ideas | Committed DB session after building idea detail for idea_id=f5e98f12-d164-4446-968b-bd65ae441d48
+2026-04-13 15:54:24 | INFO     | routers.ideas | Fetching idea f5e98f12-d164-4446-968b-bd65ae441d48 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:55:06 | INFO     | routers.ideas | Fetching idea f5e98f12-d164-4446-968b-bd65ae441d48 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:55:06 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:55:07 | INFO     | routers.ideas | Fetching idea f5e98f12-d164-4446-968b-bd65ae441d48 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:55:07 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:55:13 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:55:15 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 15:55:15 | INFO     | services.ai | Quick read (length=37)
+2026-04-13 15:55:17 | INFO     | services.ai | Quick read done: title='Not a Business Idea' viability=1
+2026-04-13 15:55:20 | INFO     | routers.analyze | POST /api/full-analysis
+2026-04-13 15:55:20 | INFO     | services.ai | Full analysis (length=37)
+2026-04-13 15:55:26 | INFO     | services.ai | Full analysis done: title='Incoherent Business Concept' viability=1
+2026-04-13 15:55:40 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:55:46 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:55:48 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:55:51 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 15:55:51 | INFO     | services.ai | Quick read (length=47)
+2026-04-13 15:55:52 | INFO     | services.ai | Quick read done: title='Not a Business Idea' viability=1
+2026-04-13 15:55:56 | INFO     | routers.analyze | POST /api/full-analysis
+2026-04-13 15:55:56 | INFO     | services.ai | Full analysis (length=47)
+2026-04-13 15:56:03 | INFO     | services.ai | Full analysis done: title='Invalid Business Idea' viability=1
+2026-04-13 15:56:05 | INFO     | routers.ideas | Idea created: id=137f7c18-1eee-48be-8f67-438d7b9c5b92 user=d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:56:05 | INFO     | routers.ideas | Built idea detail for idea_id=137f7c18-1eee-48be-8f67-438d7b9c5b92
+2026-04-13 15:56:05 | INFO     | routers.ideas | Committed DB session after building idea detail for idea_id=137f7c18-1eee-48be-8f67-438d7b9c5b92
+2026-04-13 15:56:05 | INFO     | routers.ideas | Fetching idea 137f7c18-1eee-48be-8f67-438d7b9c5b92 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:56:31 | INFO     | main | Shutting down
+2026-04-13 15:56:35 | INFO     | main | Starting zeroto platform API
+2026-04-13 15:56:35 | INFO     | main | Database tables ready
+2026-04-13 15:56:37 | INFO     | routers.ideas | Fetching idea 137f7c18-1eee-48be-8f67-438d7b9c5b92 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:56:37 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:56:38 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:56:38 | INFO     | routers.ideas | Fetching idea 137f7c18-1eee-48be-8f67-438d7b9c5b92 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 15:56:43 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 15:56:43 | INFO     | services.ai | Quick read (length=90)
+2026-04-13 15:56:45 | INFO     | services.ai | Quick read done: title='Not a Business Idea' viability=1
+2026-04-13 15:56:47 | INFO     | routers.analyze | POST /api/full-analysis
+2026-04-13 15:56:47 | INFO     | services.ai | Full analysis (length=90)
+2026-04-13 15:56:53 | INFO     | services.ai | Full analysis done: title='Insufficient Data for Analysis' viability=1
+2026-04-13 15:58:49 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:58:51 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 15:58:55 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 15:58:55 | INFO     | services.ai | Quick read (length=47)
+2026-04-13 15:58:56 | INFO     | services.ai | Quick read done: title='Not a Business Idea' viability=1
+2026-04-13 15:58:58 | INFO     | routers.analyze | POST /api/full-analysis
+2026-04-13 15:58:58 | INFO     | services.ai | Full analysis (length=47)
+2026-04-13 15:59:02 | INFO     | services.ai | Full analysis done: title='Invalid Business Idea' viability=1
+2026-04-13 16:02:39 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 16:02:44 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 16:02:44 | INFO     | services.ai | Quick read (length=48)
+2026-04-13 16:02:45 | INFO     | services.ai | Quick read done: title='Not a Business Idea' viability=1
+2026-04-13 16:24:08 | INFO     | main | Starting zeroto platform API
+2026-04-13 16:24:09 | INFO     | main | Database tables ready
+2026-04-13 16:24:12 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com
+2026-04-13 16:24:16 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 16:24:16 | INFO     | services.ai | Quick read (length=26)
+2026-04-13 16:24:18 | INFO     | services.ai | Quick read done: title='Not a Business Idea' viability=1
+2026-04-13 16:24:34 | INFO     | routers.analyze | POST /api/quick-read
+2026-04-13 16:24:34 | INFO     | services.ai | Quick read (length=855)
+2026-04-13 16:24:39 | INFO     | services.ai | Quick read done: title='Smart Plant Subscriptions' viability=7
+2026-04-13 16:25:46 | INFO     | routers.analyze | POST /api/full-analysis
+2026-04-13 16:25:46 | INFO     | services.ai | Full analysis (length=855)
+2026-04-13 16:26:01 | INFO     | services.ai | Full analysis done: title='Smart Indoor Plant Subscription Kits' viability=3
+2026-04-13 16:26:15 | INFO     | routers.ideas | Idea created: id=941bef52-70e0-4583-9470-fa0a1eccfb95 user=d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 16:26:15 | INFO     | routers.ideas | Built idea detail for idea_id=941bef52-70e0-4583-9470-fa0a1eccfb95
+2026-04-13 16:26:15 | INFO     | routers.ideas | Committed DB session after building idea detail for idea_id=941bef52-70e0-4583-9470-fa0a1eccfb95
+2026-04-13 16:26:15 | INFO     | routers.ideas | Fetching idea 941bef52-70e0-4583-9470-fa0a1eccfb95 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 16:26:19 | INFO     | services.ai | Chat response for idea=Smart Indoor Plant Subscription Kits
+2026-04-13 16:26:20 | INFO     | routers.chat | Chat message saved for idea=941bef52-70e0-4583-9470-fa0a1eccfb95
+2026-04-13 16:26:24 | INFO     | routers.ideas | Fetching idea 941bef52-70e0-4583-9470-fa0a1eccfb95 for user d3b7f8eb-c302-46b3-964e-2440828ce343
+2026-04-13 16:26:24 | INFO     | routers.ideas | Listing ideas for user: dasojdkajdk@asoidjasldj.com

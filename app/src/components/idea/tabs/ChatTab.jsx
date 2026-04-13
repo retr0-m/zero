@@ -15,7 +15,7 @@ const STARTERS = [
   'How do I validate this without spending money?',
 ]
 
-export default function ChatTab({ idea }) {
+export default function ChatTab({ idea, onMessagesChange }) {
   const [messages, setMessages] = useState(idea.chat_messages || [])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -23,6 +23,15 @@ export default function ChatTab({ idea }) {
   const bottomRef = useRef(null)
   const inputRef = useRef(null)
   const color = viabilityColor(idea.viability_score)
+
+  useEffect(() => {
+    setMessages(idea.chat_messages || [])
+  }, [idea.chat_messages])
+
+  function updateMessages(nextMessages) {
+    setMessages(nextMessages)
+    onMessagesChange?.(nextMessages)
+  }
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -35,15 +44,23 @@ export default function ChatTab({ idea }) {
     setError('')
 
     const userMsg = { id: Date.now(), role: 'user', content: msg }
-    setMessages((prev) => [...prev, userMsg])
+    updateMessages([...messages, userMsg])
     setLoading(true)
 
     try {
       const { data } = await sendChat(idea.id, msg)
-      setMessages((prev) => [...prev, data])
+      setMessages((prev) => {
+        const next = [...prev, data]
+        onMessagesChange?.(next)
+        return next
+      })
     } catch (err) {
       setError('Failed to get a response. Try again.')
-      setMessages((prev) => prev.slice(0, -1)) // remove optimistic
+      setMessages((prev) => {
+        const next = prev.slice(0, -1)
+        onMessagesChange?.(next)
+        return next
+      }) // remove optimistic
     } finally {
       setLoading(false)
       inputRef.current?.focus()
@@ -86,11 +103,10 @@ export default function ChatTab({ idea }) {
             className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[85%] rounded-xl px-3.5 py-2.5 text-xs leading-relaxed ${
-                m.role === 'user'
+              className={`max-w-[85%] rounded-xl px-3.5 py-2.5 text-xs leading-relaxed ${m.role === 'user'
                   ? 'bg-zinc-800 text-zinc-200 rounded-br-sm'
                   : 'bg-zinc-900 border border-white/5 text-zinc-300 rounded-bl-sm'
-              }`}
+                }`}
             >
               {m.role === 'assistant' && (
                 <span

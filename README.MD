@@ -87,8 +87,26 @@ npm run dev
 
 Create `backend/.env` with the following:
 
-ANTHROPIC_API_KEY=your_key_here
-# add any other keys (DB, JWT secret, etc.)
+# openai
+OPENAI_API_KEY=sk-proj-xxxxx
+OPENAI_MODEL=gpt-4o
+OPENAI_MAX_TOKENS=1000
+
+# Database
+DATABASE_URL=postgresql+asyncpg://username:password@localhost:5432/zeroto
+
+# Auth
+JWT_SECRET_KEY=<your random string>
+JWT_ALGORITHM=HS256
+JWT_EXPIRE_MINUTES=10080
+
+# CORS
+CORS_ORIGINS=["http://localhost:5173","http://localhost:5174","https://zeroto.com"]
+
+# Idea validation
+IDEA_MIN_LENGTH=20
+IDEA_MAX_LENGTH=2000
+
 
 ---
 
